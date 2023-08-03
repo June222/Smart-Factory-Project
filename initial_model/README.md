@@ -24,7 +24,7 @@
 1. 불량을 검출하는 단계 (Image Segmentation)
 2. 검출된 불량을 분류하는 단계 (Image Classification)
 
-![steel](https://github.com/YeoJiSu/Smart-Factory-Project/assets/76769044/17836756-5d61-410d-b481-a720b6a59858)
+[steel](https://github.com/YeoJiSu/Smart-Factory-Project/assets/76769044/17836756-5d61-410d-b481-a720b6a59858)
 
 (1) Image Classification <br>
 * 철강 이미지 데이터에 대해  CNN, GAN, few-shot learning을 바로 적용하여 불량을 분류하는 모델<br>
@@ -45,4 +45,4 @@
 
 1. 이미지 생성 모델
    
-(1) ![DCGAN](https://github.com/June222/Smart-Factory-Project/blob/main/initial_model/DCGAN.ipynb)
+(1) [DCGAN](https://github.com/June222/Smart-Factory-Project/blob/main/initial_model/DCGAN.ipynb)
