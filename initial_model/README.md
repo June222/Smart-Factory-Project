@@ -40,3 +40,9 @@
 * 3-1. image segmentation 모델) input 값: 철강 이미지, output 값: RLE 인코딩 데이터<br>
 * 3-2. 마스크 이미지 만드는 함수)<br>
 * 3-3. image classification 모델) input 값: 이미지 마스크 , output 값: 불량 클래스 번호<br>
+
+### 📌 데이터 전처리
+
+1. 이미지 생성 모델
+   
+(1) ![DCGAN](https://github.com/June222/Smart-Factory-Project/blob/main/initial_model/DCGAN.ipynb)
