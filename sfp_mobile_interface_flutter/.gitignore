@@ -42,24 +42,3 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-
-# Android folder
-/android/
-
-# Ios folder
-/ios/
-
-# Linux folder
-/linux/
-
-# MacOS folder
-/macos/
-
-# Web folder
-/web/
-
-# Windows folder
-/windows/
-
-# Test folder
-/test/
