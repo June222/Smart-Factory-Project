@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sfp_mobile_interface_flutter/data/data.dart';
-import 'package:sfp_mobile_interface_flutter/screens/date_time_page.dart';
+import 'package:sfp_mobile_interface_flutter/screens/data_by_date_page.dart';
 import 'package:sfp_mobile_interface_flutter/screens/real_time_page.dart';
 
 class HomePage extends StatelessWidget {

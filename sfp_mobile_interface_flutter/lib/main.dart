@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sfp_mobile_interface_flutter/screens/date_time_page.dart';
+import 'package:sfp_mobile_interface_flutter/screens/data_by_date_page.dart';
 import 'package:sfp_mobile_interface_flutter/screens/home_page.dart';
 import 'package:sfp_mobile_interface_flutter/screens/login_page.dart';
 import 'package:sfp_mobile_interface_flutter/screens/real_time_image_page.dart';
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: RealTimePage.routeName,
+      initialRoute: DateTimePage.routeName,
       routes: {
         '/': (context) => const LoginPage(),
         HomePage.routeName: (context) => const HomePage(),
@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        appBarTheme: const AppBarTheme(backgroundColor: Colors.black),
         useMaterial3: true,
       ),
     );
