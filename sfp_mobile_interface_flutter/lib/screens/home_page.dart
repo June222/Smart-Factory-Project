@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sfp_mobile_interface_flutter/data/data.dart';
+import 'package:sfp_mobile_interface_flutter/screens/date_time_page.dart';
 import 'package:sfp_mobile_interface_flutter/screens/real_time_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -17,7 +18,7 @@ class HomePage extends StatelessWidget {
     }
 
     void onDateTimePressed() {
-      Navigator.pushNamed(context, routeName);
+      Navigator.pushNamed(context, DateTimePage.routeName);
     }
 
     return Scaffold(
@@ -85,7 +86,7 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: onDateTimePressed,
                       child: Container(
                         width: width / 5,
                         height: width / 5,
