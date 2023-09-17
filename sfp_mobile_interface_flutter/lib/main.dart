@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sfp_mobile_interface_flutter/screens/home_page.dart';
 import 'package:sfp_mobile_interface_flutter/screens/login_page.dart';
+import 'package:sfp_mobile_interface_flutter/screens/real_time_image_page.dart';
 import 'package:sfp_mobile_interface_flutter/screens/real_time_page.dart';
 
 void main() {
@@ -13,11 +14,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/',
+      initialRoute: RealTimePage.routeName,
       routes: {
         '/': (context) => const LoginPage(),
         HomePage.routeName: (context) => const HomePage(),
         RealTimePage.routeName: (context) => const RealTimePage(),
+        RealTimeImagePage.routeName: (context) => const RealTimeImagePage(),
       },
       title: 'Flutter Demo',
       theme: ThemeData(

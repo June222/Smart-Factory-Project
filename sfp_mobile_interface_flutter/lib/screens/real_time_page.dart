@@ -146,7 +146,16 @@ class _RowDataState extends State<RowData> {
   Color? containerColor;
 
   void movePageToRealTimeImagePage() {
-    Navigator.pushNamed(context, RealTimeImagePage.routeName);
+    Navigator.pushNamed(
+      context,
+      RealTimeImagePage.routeName,
+      arguments: RealTimeImageArguments(
+        "fileName",
+        "000001",
+        "2023-09-14",
+        steelImage1,
+      ),
+    );
   }
 
   void onDataTap() async {
