@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sfp_mobile_interface_flutter/data/data.dart';
+import 'package:sfp_mobile_interface_flutter/screens/real_time_image_page.dart';
 
 class RealTimePage extends StatefulWidget {
   const RealTimePage({super.key});
@@ -144,9 +145,9 @@ class RowData extends StatefulWidget {
 class _RowDataState extends State<RowData> {
   Color? containerColor;
 
-  // void movePageToRealTimeImagePage() {
-  //   Navigator.pushNamed(context, RealTimeImagePage.routeName);
-  // }
+  void movePageToRealTimeImagePage() {
+    Navigator.pushNamed(context, RealTimeImagePage.routeName);
+  }
 
   void onDataTap() async {
     setState(() {
@@ -157,7 +158,7 @@ class _RowDataState extends State<RowData> {
       containerColor = null;
     });
 
-    // movePageToRealTimeImagePage();
+    movePageToRealTimeImagePage();
   }
 
   @override
