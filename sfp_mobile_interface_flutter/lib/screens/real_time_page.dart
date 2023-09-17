@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sfp_mobile_interface_flutter/data/data.dart';
 
 class RealTimePage extends StatefulWidget {
   const RealTimePage({super.key});
@@ -10,21 +11,25 @@ class RealTimePage extends StatefulWidget {
 }
 
 class _RealTimePageState extends State<RealTimePage> {
-  // late final TextEditingController _controller;
+  late final ScrollController _scrollController;
   late FocusNode _focusNode;
-  String text = "";
+
+  final int imageRate = 3;
+  Color? containerColor;
 
   @override
   void initState() {
     super.initState();
     // _controller = TextEditingController();
     // _controller.addListener(() {});
+    _scrollController = ScrollController();
     _focusNode = FocusNode();
   }
 
   @override
   void dispose() {
     _focusNode.dispose();
+    _scrollController.dispose();
     // _controller.dispose();
     super.dispose();
   }
@@ -60,51 +65,157 @@ class _RealTimePageState extends State<RealTimePage> {
                 textInputAction: TextInputAction.search,
               ),
               const SizedBox(height: 20),
-              DataTable(
-                headingRowHeight: height / 10,
-                dataRowHeight: height / 12,
-                columns: const [
-                  DataColumn(
-                    label: Text("파일 이름"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Flexible(
+                    fit: FlexFit.tight,
+                    child: Text(
+                      "파일 이름",
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                  DataColumn(
-                    label: Text("파일 번호"),
+                  const Flexible(
+                    fit: FlexFit.tight,
+                    child: Text(
+                      "파일 번호",
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                  DataColumn(
-                    label: Text("날짜"),
+                  const Flexible(
+                    fit: FlexFit.tight,
+                    child: Text(
+                      "날짜",
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                ],
-                rows: const [
-                  DataRow(
-                    cells: [
-                      DataCell(
-                        Text("가나다라"),
-                      ),
-                      DataCell(
-                        Text("00001번"),
-                      ),
-                      DataCell(
-                        Text("2023-09-14"),
-                      ),
-                    ],
-                  ),
-                  DataRow(
-                    cells: [
-                      DataCell(
-                        Text("가나다라"),
-                      ),
-                      DataCell(
-                        Text("00001번"),
-                      ),
-                      DataCell(
-                        Text("2023-09-14"),
-                      ),
-                    ],
+                  Flexible(
+                    fit: FlexFit.tight,
+                    flex: imageRate,
+                    child: const Text(
+                      "이미지",
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ],
               ),
+              const SizedBox(height: 10),
+              Expanded(
+                child: Scrollbar(
+                  child: ListView.builder(
+                    itemCount: 30,
+                    itemBuilder: (context, index) {
+                      return RowData(
+                        imageRate: imageRate,
+                        height: height,
+                        width: width,
+                        index: index,
+                      );
+                    },
+                  ),
+                ),
+              )
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class RowData extends StatefulWidget {
+  const RowData({
+    super.key,
+    required this.imageRate,
+    required this.height,
+    required this.width,
+    required this.index,
+  });
+
+  final int imageRate;
+  final int index;
+  final double height;
+  final double width;
+
+  @override
+  State<RowData> createState() => _RowDataState();
+}
+
+class _RowDataState extends State<RowData> {
+  Color? containerColor;
+
+  // void movePageToRealTimeImagePage() {
+  //   Navigator.pushNamed(context, RealTimeImagePage.routeName);
+  // }
+
+  void onDataTap() async {
+    setState(() {
+      containerColor = Colors.blue.withOpacity(0.5);
+    });
+    await Future.delayed(const Duration(milliseconds: 150));
+    setState(() {
+      containerColor = null;
+    });
+
+    // movePageToRealTimeImagePage();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      key: Key("${widget.index}"),
+      onTap: () => onDataTap(),
+      child: Container(
+        decoration: BoxDecoration(
+          color: containerColor,
+          border: const Border(top: BorderSide(color: Colors.black)),
+        ),
+        child: Row(
+          children: [
+            const Flexible(
+              fit: FlexFit.tight,
+              flex: 1,
+              child: Text(
+                "ABC",
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const Flexible(
+              fit: FlexFit.tight,
+              flex: 1,
+              child: Text(
+                "000001번",
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const Flexible(
+              fit: FlexFit.tight,
+              flex: 1,
+              child: Text(
+                "2023-09-14",
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Flexible(
+              fit: FlexFit.tight,
+              flex: widget.imageRate,
+              child: Align(
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 10,
+                  ),
+                  child: Image.asset(
+                    steelImage1,
+                    height: widget.height / 5,
+                    width: widget.width * .4,
+                    fit: BoxFit.fitWidth,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
