@@ -18,7 +18,11 @@ class _DateTimePageState extends State<DateTimePage> {
 
   final int settingRate = 3;
   String? selectedValue = "All";
-  final bool _offstage = true;
+
+  bool visibleFirstLabel = false;
+  bool visibleSecondLabel = false;
+  bool visibleThirdLabel = false;
+  bool visibleFourthLabel = false;
 
   @override
   void initState() {
@@ -43,6 +47,37 @@ class _DateTimePageState extends State<DateTimePage> {
       (value) => log(value.toString()),
     );
     // selectedDate.then((value) => null)
+  }
+
+  void initLabel() {
+    setState(() {
+      visibleFirstLabel = false;
+      visibleSecondLabel = false;
+      visibleThirdLabel = false;
+      visibleFourthLabel = false;
+    });
+  }
+
+  void setLabel(SelectionArgs selectionArgs) {
+    initLabel();
+    setState(() {
+      switch (selectionArgs.seriesIndex) {
+        case 0:
+          visibleFirstLabel = true;
+          break;
+        case 1:
+          visibleSecondLabel = true;
+          break;
+        case 2:
+          visibleThirdLabel = true;
+          break;
+        case 3:
+          visibleFourthLabel = true;
+          break;
+        default:
+          break;
+      }
+    });
   }
 
   @override
@@ -200,171 +235,146 @@ class _DateTimePageState extends State<DateTimePage> {
                               decoration: BoxDecoration(
                                 color: Colors.red.shade100,
                               ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  // SfCartesianChart(
-                                  //   primaryXAxis: CategoryAxis(),
-                                  //   series: [
-                                  //     // ColumnSeries(
-                                  //     //   dataSource: <DataByClass>[
-                                  //     //     DataByClass("1", 80),
-                                  //     //     DataByClass("2", 50),
-                                  //     //     DataByClass("3", 15),
-                                  //     //     DataByClass("4", 5),
-                                  //     //   ],
-                                  //     //   xValueMapper: (datum, index) =>
-                                  //     //       datum.class_name,
-                                  //     //   yValueMapper: (datum, index) =>
-                                  //     //       datum.numbers,
-                                  //     // ),
-                                  //     LineSeries(
-                                  //       // markerSettings:
-                                  //       //     const TrackballMarkerSettings(
-                                  //       //   markerVisibility:
-                                  //       //       TrackballVisibilityMode.visible,
-                                  //       //   height: 100,
-                                  //       //   width: 20,
-                                  //       //   color: Colors.black,
-                                  //       //   shape: DataMarkerType.circle,
-                                  //       // ),
-                                  //       dataSource: <DataByClass>[
-                                  //         DataByClass("1", 80),
-                                  //         DataByClass("2", 50),
-                                  //         DataByClass("3", 15),
-                                  //         DataByClass("4", 5),
-                                  //       ],
-                                  //       xValueMapper: (datum, index) =>
-                                  //           datum.class_name,
-                                  //       yValueMapper: (datum, index) =>
-                                  //           datum.numbers,
-                                  //     ),
-                                  //   ],
-                                  //   // series: <LineSeries<DateByClass, String>>[
-                                  //   //   LineSeries<DateByClass, String>(
-                                  //   //     dataSource: <DateByClass>[
-                                  //   //       DateByClass("1", 80),
-                                  //   //       DateByClass("2", 50),
-                                  //   //       DateByClass("3", 15),
-                                  //   //       DateByClass("4", 5),
-                                  //   //     ],
-                                  //   //     xValueMapper: (datum, index) =>
-                                  //   //         datum.class_name,
-                                  //   //     yValueMapper: (datum, index) =>
-                                  //   //         datum.numbers,
-                                  //   //   )
-                                  //   // ],
-                                  // ),
-                                  // SfSparkLineChart(
-                                  //   trackball: const SparkChartTrackball(
-                                  //     activationMode:
-                                  //         SparkChartActivationMode.tap,
-                                  //   ),
-                                  //   marker: const SparkChartMarker(
-                                  //       displayMode:
-                                  //           SparkChartMarkerDisplayMode.all),
-                                  //   labelDisplayMode:
-                                  //       SparkChartLabelDisplayMode.all,
-                                  //   data: const [80, 50, 15, 5],
-                                  // ),
-                                  SfCartesianChart(
-                                    // plotAreaBorderWidth: 0.8,
+                              child: SfCartesianChart(
+                                title: ChartTitle(text: "Columns Chart"),
+                                primaryXAxis: CategoryAxis(),
+                                primaryYAxis: NumericAxis(),
+                                selectionType: SelectionType.series,
+                                selectionGesture: ActivationMode.singleTap,
+                                onAxisLabelTapped: (axisLabelTapArgs) {
+                                  log("message");
+                                },
+                                onSelectionChanged: setLabel,
+                                legend: const Legend(
+                                  isVisible: true,
+                                  iconHeight: 30,
+                                ),
+                                zoomPanBehavior: ZoomPanBehavior(
+                                  enablePanning: true,
+                                  maximumZoomLevel: 0.1,
+                                  enablePinching: true,
+                                  zoomMode: ZoomMode.x,
+                                ),
 
-                                    zoomPanBehavior: ZoomPanBehavior(
-                                      enablePanning: true,
-                                      enableDoubleTapZooming: true,
-                                      maximumZoomLevel: 3,
+                                // tooltipBehavior: TooltipBehavior(
+                                //   activationMode: ActivationMode.singleTap,
+                                //   enable: true,
+                                //   tooltipPosition: TooltipPosition.auto,
+                                //   shouldAlwaysShow: true,
+                                // ),
+                                trackballBehavior: TrackballBehavior(
+                                  enable: true,
+                                  lineType: TrackballLineType.vertical,
+                                  tooltipAlignment: ChartAlignment.near,
+                                  tooltipDisplayMode:
+                                      TrackballDisplayMode.floatAllPoints,
+                                ),
+                                series: [
+                                  ColumnSeries(
+                                    enableTooltip: true,
+                                    name: "Class A",
+                                    dataLabelMapper: (datum, index) =>
+                                        datum.class_one_num.toString(),
+                                    dataLabelSettings: DataLabelSettings(
+                                      isVisible: visibleFirstLabel,
                                     ),
-
-                                    primaryXAxis: CategoryAxis(),
-                                    // selectionType: SelectionType.series,
-                                    series: [
-                                      ColumnSeries(
-                                        dataSource: <DataByDate>[
-                                          DataByDate(80, 50, 15, 5, "1"),
-                                          DataByDate(80, 50, 15, 5, "2"),
-                                          DataByDate(50, 30, 5, 15, "3"),
-                                          DataByDate(50, 30, 5, 15, "4"),
-                                          DataByDate(50, 30, 5, 15, "5"),
-                                        ],
-                                        xValueMapper: (datum, index) =>
-                                            datum.date,
-                                        yValueMapper: (datum, index) =>
-                                            datum.class_one_num,
-                                      ),
-                                      ColumnSeries(
-                                        dataSource: <DataByDate>[
-                                          DataByDate(80, 50, 15, 5, "1"),
-                                          DataByDate(80, 50, 15, 5, "2"),
-                                          DataByDate(50, 30, 5, 15, "3"),
-                                          DataByDate(50, 30, 5, 15, "4"),
-                                          DataByDate(50, 30, 5, 15, "5"),
-                                        ],
-                                        xValueMapper: (datum, index) =>
-                                            datum.date,
-                                        yValueMapper: (datum, index) =>
-                                            datum.class_two_num,
-                                      ),
-                                      ColumnSeries(
-                                        dataSource: <DataByDate>[
-                                          DataByDate(80, 50, 15, 5, "1"),
-                                          DataByDate(80, 50, 15, 5, "2"),
-                                          DataByDate(50, 30, 5, 15, "3"),
-                                          DataByDate(50, 30, 5, 15, "4"),
-                                          DataByDate(50, 30, 5, 15, "5"),
-                                        ],
-                                        xValueMapper: (datum, index) =>
-                                            datum.date,
-                                        yValueMapper: (datum, index) =>
-                                            datum.class_three_num,
-                                      ),
-                                      ColumnSeries(
-                                        dataSource: <DataByDate>[
-                                          DataByDate(80, 50, 15, 5, "1"),
-                                          DataByDate(80, 50, 15, 5, "2"),
-                                          DataByDate(50, 30, 5, 15, "3"),
-                                          DataByDate(50, 30, 5, 15, "4"),
-                                          DataByDate(50, 30, 5, 15, "5"),
-                                        ],
-                                        xValueMapper: (datum, index) =>
-                                            datum.date,
-                                        yValueMapper: (datum, index) =>
-                                            datum.class_four_num,
-                                      ),
+                                    selectionBehavior: SelectionBehavior(
+                                      enable: true,
+                                    ),
+                                    dataSource: <DataByDate>[
+                                      DataByDate(80, 50, 15, 5, "2023-09-14"),
+                                      DataByDate(80, 50, 15, 5, "2023-09-15"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-16"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-17"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-18"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-19"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-20"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-21"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-22"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-23"),
                                     ],
+                                    xValueMapper: (datum, index) => datum.date,
+                                    yValueMapper: (datum, index) =>
+                                        datum.class_one_num,
                                   ),
-                                  // SfCartesianChart(
-                                  //   primaryXAxis: CategoryAxis(),
-                                  //   primaryYAxis: NumericAxis(),
-                                  //   series: <ChartSeries>[
-                                  //     // 첫 번째 시리즈
-                                  //     ColumnSeries<ChartData, String>(
-                                  //       dataSource: <ChartData>[
-                                  //         ChartData('Category A', 30),
-                                  //         ChartData('Category B', 50),
-                                  //         ChartData('Category C', 20),
-                                  //       ],
-                                  //       xValueMapper: (ChartData sales, _) =>
-                                  //           sales.category,
-                                  //       yValueMapper: (ChartData sales, _) =>
-                                  //           sales.value,
-                                  //       name: 'Series 1',
-                                  //     ),
-                                  //     // 두 번째 시리즈
-                                  //     ColumnSeries<ChartData, String>(
-                                  //       dataSource: <ChartData>[
-                                  //         ChartData('Category A', 40),
-                                  //         ChartData('Category B', 20),
-                                  //         ChartData('Category C', 60),
-                                  //       ],
-                                  //       xValueMapper: (ChartData sales, _) =>
-                                  //           sales.category,
-                                  //       yValueMapper: (ChartData sales, _) =>
-                                  //           sales.value,
-                                  //       name: 'Series 2',
-                                  //     ),
-                                  //   ],
-                                  // ),
+                                  ColumnSeries(
+                                    name: "Class B",
+                                    selectionBehavior: SelectionBehavior(
+                                      enable: true,
+                                    ),
+                                    dataLabelMapper: (datum, index) =>
+                                        datum.class_two_num.toString(),
+                                    dataLabelSettings: DataLabelSettings(
+                                      isVisible: visibleSecondLabel,
+                                    ),
+                                    dataSource: <DataByDate>[
+                                      DataByDate(80, 50, 15, 5, "2023-09-14"),
+                                      DataByDate(80, 50, 15, 5, "2023-09-15"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-16"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-17"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-18"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-19"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-20"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-21"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-22"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-23"),
+                                    ],
+                                    xValueMapper: (datum, index) => datum.date,
+                                    yValueMapper: (datum, index) =>
+                                        datum.class_two_num,
+                                  ),
+                                  ColumnSeries(
+                                    name: "Class C",
+                                    selectionBehavior: SelectionBehavior(
+                                      enable: true,
+                                    ),
+                                    dataLabelMapper: (datum, index) =>
+                                        datum.class_three_num.toString(),
+                                    dataLabelSettings: DataLabelSettings(
+                                      isVisible: visibleThirdLabel,
+                                    ),
+                                    dataSource: <DataByDate>[
+                                      DataByDate(80, 50, 15, 5, "2023-09-14"),
+                                      DataByDate(80, 50, 15, 5, "2023-09-15"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-16"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-17"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-18"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-19"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-20"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-21"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-22"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-23"),
+                                    ],
+                                    xValueMapper: (datum, index) => datum.date,
+                                    yValueMapper: (datum, index) =>
+                                        datum.class_three_num,
+                                  ),
+                                  ColumnSeries(
+                                    name: "Class D",
+                                    selectionBehavior: SelectionBehavior(
+                                      enable: true,
+                                    ),
+                                    dataLabelMapper: (datum, index) =>
+                                        datum.class_four_num.toString(),
+                                    dataLabelSettings: DataLabelSettings(
+                                      isVisible: visibleFourthLabel,
+                                    ),
+                                    dataSource: <DataByDate>[
+                                      DataByDate(80, 50, 15, 5, "2023-09-14"),
+                                      DataByDate(80, 50, 15, 5, "2023-09-15"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-16"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-17"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-18"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-19"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-20"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-21"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-22"),
+                                      DataByDate(50, 30, 5, 15, "2023-09-23"),
+                                    ],
+                                    xValueMapper: (datum, index) => datum.date,
+                                    yValueMapper: (datum, index) =>
+                                        datum.class_four_num,
+                                  ),
                                 ],
                               ),
                             )
@@ -392,10 +402,10 @@ class DataByClass {
 
 class DataByDate {
   final String date;
-  final double class_one_num;
-  final double class_two_num;
-  final double class_three_num;
-  final double class_four_num;
+  final int class_one_num;
+  final int class_two_num;
+  final int class_three_num;
+  final int class_four_num;
 
   DataByDate(this.class_one_num, this.class_two_num, this.class_three_num,
       this.class_four_num, this.date);
@@ -407,3 +417,99 @@ class ChartData {
 
   ChartData(this.category, this.value);
 }
+// SfCartesianChart(
+//   primaryXAxis: CategoryAxis(),
+//   primaryYAxis: NumericAxis(),
+//   series: <ChartSeries>[
+//     // 첫 번째 시리즈
+//     ColumnSeries<ChartData, String>(
+//       dataSource: <ChartData>[
+//         ChartData('Category A', 30),
+//         ChartData('Category B', 50),
+//         ChartData('Category C', 20),
+//       ],
+//       xValueMapper: (ChartData sales, _) =>
+//           sales.category,
+//       yValueMapper: (ChartData sales, _) =>
+//           sales.value,
+//       name: 'Series 1',
+//     ),
+//     // 두 번째 시리즈
+//     ColumnSeries<ChartData, String>(
+//       dataSource: <ChartData>[
+//         ChartData('Category A', 40),
+//         ChartData('Category B', 20),
+//         ChartData('Category C', 60),
+//       ],
+//       xValueMapper: (ChartData sales, _) =>
+//           sales.category,
+//       yValueMapper: (ChartData sales, _) =>
+//           sales.value,
+//       name: 'Series 2',
+//     ),
+//   ],
+// ),
+// SfCartesianChart(
+//   primaryXAxis: CategoryAxis(),
+//   series: [
+//     // ColumnSeries(
+//     //   dataSource: <DataByClass>[
+//     //     DataByClass("1", 80),
+//     //     DataByClass("2", 50),
+//     //     DataByClass("3", 15),
+//     //     DataByClass("4", 5),
+//     //   ],
+//     //   xValueMapper: (datum, index) =>
+//     //       datum.class_name,
+//     //   yValueMapper: (datum, index) =>
+//     //       datum.numbers,
+//     // ),
+//     LineSeries(
+//       // markerSettings:
+//       //     const TrackballMarkerSettings(
+//       //   markerVisibility:
+//       //       TrackballVisibilityMode.visible,
+//       //   height: 100,
+//       //   width: 20,
+//       //   color: Colors.black,
+//       //   shape: DataMarkerType.circle,
+//       // ),
+//       dataSource: <DataByClass>[
+//         DataByClass("1", 80),
+//         DataByClass("2", 50),
+//         DataByClass("3", 15),
+//         DataByClass("4", 5),
+//       ],
+//       xValueMapper: (datum, index) =>
+//           datum.class_name,
+//       yValueMapper: (datum, index) =>
+//           datum.numbers,
+//     ),
+//   ],
+//   // series: <LineSeries<DateByClass, String>>[
+//   //   LineSeries<DateByClass, String>(
+//   //     dataSource: <DateByClass>[
+//   //       DateByClass("1", 80),
+//   //       DateByClass("2", 50),
+//   //       DateByClass("3", 15),
+//   //       DateByClass("4", 5),
+//   //     ],
+//   //     xValueMapper: (datum, index) =>
+//   //         datum.class_name,
+//   //     yValueMapper: (datum, index) =>
+//   //         datum.numbers,
+//   //   )
+//   // ],
+// ),
+// SfSparkLineChart(
+//   trackball: const SparkChartTrackball(
+//     activationMode:
+//         SparkChartActivationMode.tap,
+//   ),
+//   marker: const SparkChartMarker(
+//       displayMode:
+//           SparkChartMarkerDisplayMode.all),
+//   labelDisplayMode:
+//       SparkChartLabelDisplayMode.all,
+//   data: const [80, 50, 15, 5],
+// ),
