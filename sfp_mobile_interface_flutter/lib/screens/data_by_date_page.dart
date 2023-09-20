@@ -81,8 +81,12 @@ class _DateTimePageState extends State<DateTimePage> {
     });
   }
 
-  void tapOnDate() {
-    Navigator.pushNamed(context, DataByDateDetailPage.routeName);
+  void tapOnDate(String date) {
+    Navigator.pushNamed(
+      context,
+      DataByDateDetailPage.routeName,
+      arguments: DataByDateDetailArguments(date),
+    );
   }
 
   @override
@@ -248,7 +252,7 @@ class _DateTimePageState extends State<DateTimePage> {
                                 selectionGesture: ActivationMode.singleTap,
                                 onAxisLabelTapped: (args) {
                                   log(args.text);
-                                  tapOnDate();
+                                  tapOnDate(args.text);
                                 },
                                 onSelectionChanged: setLabel,
                                 legend: const Legend(
