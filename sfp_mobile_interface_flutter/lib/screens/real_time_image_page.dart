@@ -28,80 +28,78 @@ class _RealTimeImagePageState extends State<RealTimeImagePage> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(30.0),
-          child: Expanded(
-            child: SingleChildScrollView(
-              physics: _pointersCount == 2
-                  ? const NeverScrollableScrollPhysics()
-                  : null,
-              child: Column(
-                children: [
-                  const Text("촬영된 이미지"),
-                  Listener(
-                    onPointerDown: (event) => setState(() {
-                      _pointersCount++;
-                    }),
-                    onPointerUp: (event) => setState(() {
-                      _pointersCount--;
-                    }),
-                    child: Container(
-                      color: Colors.amber,
-                      child: InteractiveViewer(
-                        maxScale: 5,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(
-                            args.imageName,
-                            width: width,
-                            height: height / 3,
-                            // fit: BoxFit.fill,
-                          ),
+          child: SingleChildScrollView(
+            physics: _pointersCount == 2
+                ? const NeverScrollableScrollPhysics()
+                : null,
+            child: Column(
+              children: [
+                const Text("촬영된 이미지"),
+                Listener(
+                  onPointerDown: (event) => setState(() {
+                    _pointersCount++;
+                  }),
+                  onPointerUp: (event) => setState(() {
+                    _pointersCount--;
+                  }),
+                  child: Container(
+                    color: Colors.amber,
+                    child: InteractiveViewer(
+                      maxScale: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          args.imageName,
+                          width: width,
+                          height: height / 3,
+                          // fit: BoxFit.fill,
                         ),
                       ),
                     ),
                   ),
-                  Text("${args.fileName} / ${args.fileNumber} / ${args.date}"),
-                  // const Divider(),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        const Divider(),
-                        ElevatedButton(
-                          autofocus: true,
-                          onPressed: () {},
-                          child: const Text("분류하기"),
-                        ),
-                      ],
-                    ),
+                ),
+                Text("${args.fileName} / ${args.fileNumber} / ${args.date}"),
+                // const Divider(),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      const Divider(),
+                      ElevatedButton(
+                        autofocus: true,
+                        onPressed: () {},
+                        child: const Text("분류하기"),
+                      ),
+                    ],
                   ),
-                  const Text("Detection 된 이미지"),
-                  Listener(
-                    onPointerDown: (_) => setState(() {
-                      _pointersCount++;
-                    }),
-                    onPointerUp: (_) => setState(() {
-                      _pointersCount--;
-                    }),
-                    child: Container(
-                      color: Colors.amber,
-                      child: InteractiveViewer(
-                        maxScale: 5,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(
-                            args.imageName,
-                            width: width,
-                            height: height / 3,
-                            // fit: BoxFit.fill,
-                          ),
+                ),
+                const Text("Detection 된 이미지"),
+                Listener(
+                  onPointerDown: (_) => setState(() {
+                    _pointersCount++;
+                  }),
+                  onPointerUp: (_) => setState(() {
+                    _pointersCount--;
+                  }),
+                  child: Container(
+                    color: Colors.amber,
+                    child: InteractiveViewer(
+                      maxScale: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          args.imageName,
+                          width: width,
+                          height: height / 3,
+                          // fit: BoxFit.fill,
                         ),
                       ),
                     ),
                   ),
-                  Text("${args.fileName} / ${args.fileNumber} / ${args.date}"),
-                ],
-              ),
+                ),
+                Text("${args.fileName} / ${args.fileNumber} / ${args.date}"),
+              ],
             ),
           ),
         ),
