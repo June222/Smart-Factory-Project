@@ -2,12 +2,13 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:sfp_mobile_interface_flutter/screens/data_by_date_detail_page.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class DateTimePage extends StatefulWidget {
   const DateTimePage({super.key});
 
-  static const String routeName = "/homepage/datetime";
+  static const String routeName = "/homepage/databydate";
 
   @override
   State<DateTimePage> createState() => _DateTimePageState();
@@ -78,6 +79,10 @@ class _DateTimePageState extends State<DateTimePage> {
           break;
       }
     });
+  }
+
+  void tapOnDate() {
+    Navigator.pushNamed(context, DataByDateDetailPage.routeName);
   }
 
   @override
@@ -241,8 +246,9 @@ class _DateTimePageState extends State<DateTimePage> {
                                 primaryYAxis: NumericAxis(),
                                 selectionType: SelectionType.series,
                                 selectionGesture: ActivationMode.singleTap,
-                                onAxisLabelTapped: (axisLabelTapArgs) {
-                                  log("message");
+                                onAxisLabelTapped: (args) {
+                                  log(args.text);
+                                  tapOnDate();
                                 },
                                 onSelectionChanged: setLabel,
                                 legend: const Legend(
