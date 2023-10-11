@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sfp_mobile_interface_flutter/data/data.dart';
-import 'package:sfp_mobile_interface_flutter/screens/home_page.dart';
+import 'package:sfp_mobile_interface_flutter/routers/main_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       loadingBarOffstage = false;
     });
-    Navigator.pushReplacementNamed(context, HomePage.routeName);
+    Navigator.pushReplacementNamed(context, MainPage.routeName);
   }
 
   @override
