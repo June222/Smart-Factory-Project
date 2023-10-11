@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sfp_mobile_interface_flutter/routers/main_page.dart';
 import 'package:sfp_mobile_interface_flutter/screens/login_page.dart';
-import 'package:sfp_mobile_interface_flutter/screens/main_page.dart';
 
 void main() {
   runApp(const MyApp());
