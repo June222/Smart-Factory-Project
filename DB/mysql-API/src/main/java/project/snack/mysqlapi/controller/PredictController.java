@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import project.snack.mysqlapi.model.Predict;
+import project.snack.mysqlapi.model.request.PredictCreationRequest;
 import project.snack.mysqlapi.repository.PredictRepository;
 import project.snack.mysqlapi.service.PredictService;
 
@@ -14,16 +15,17 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class PredictController {
-    private final PredictRepository predictRepository;
     private final PredictService predictService;
 
     @GetMapping(value = "/predict/getAll")
     public List<Predict> getAllPredict(){
         return predictService.getAllPredict();
     }
+
+    //결함 번호와 저장된 origin_id 입력하면 저장됨.
     @PostMapping(value = "/predict/post")
-    public String postPredict(@RequestBody Predict predict) {
-        return predictService.createPredictService(predict);
+    public ResponseEntity<Predict> postPredict(@RequestBody PredictCreationRequest request) {
+        return ResponseEntity.ok(predictService.createPredictService(request));
     }
 
     @DeleteMapping("/predict/{id}")

@@ -13,19 +13,22 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class OriginController {
-    private final OriginRepository originRepository;
     private final OriginService originService;
 
+
+    //저장된 모든 origin출력됨
     @GetMapping(value = "/origin/getAll")
     public List<Origin> getAllOrigin(){
         return originService.getAllOriginService();
     }
 
+    // 파일이름, 생성날짜(date)형식으로 입력하면 자동으로 id가 매겨짐.
     @PostMapping(value = "/origin/post")
     public String postOrigin(@RequestBody Origin origin) {
         return originService.createOriginService(origin);
     }
 
+    //저장된 id를 입력하면 삭제됨.
     @DeleteMapping("/origin/{id}")
     public ResponseEntity<String> deleteByIdOrigin(@PathVariable int id) {
         try {
