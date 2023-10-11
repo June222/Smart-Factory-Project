@@ -37,7 +37,13 @@ class _CustomDropDownButtonState extends State<CustomDropDownButton> {
         return DropdownMenuItem<String>(
           value: value,
           alignment: Alignment.center,
-          child: Text(value),
+          child: Text(
+            value,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 17,
+            ),
+          ),
         );
       }).toList(),
       onChanged: widget.onChanged,
