@@ -1,21 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:sfp_mobile_interface_flutter/data/data.dart';
+import 'package:sfp_mobile_interface_flutter/models/steel_model.dart';
 
-class SteelPreviewWidget extends StatelessWidget {
+class SteelPreviewWidget extends StatefulWidget {
   final int index;
+  final int? selectedIndex;
+  final List<SteelModel> itemList;
+  final Function(int index)? onTap;
 
   const SteelPreviewWidget({
     super.key,
     required this.index,
+    required this.selectedIndex,
+    required this.itemList,
+    this.onTap,
   });
 
+  @override
+  State<SteelPreviewWidget> createState() => _SteelPreviewWidgetState();
+}
+
+class _SteelPreviewWidgetState extends State<SteelPreviewWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: semiGreyColor,
+          color: widget.selectedIndex == widget.index
+              ? Colors.blue
+              : semiGreyColor,
           width: 2.5,
           strokeAlign: BorderSide.strokeAlignOutside,
         ),
@@ -31,17 +45,26 @@ class SteelPreviewWidget extends StatelessWidget {
               children: [
                 Icon(
                   Icons.fiber_manual_record_rounded,
-                  color: index % 2 == 0 ? Colors.red : Colors.green,
+                  color: widget.itemList[widget.index].isNormal
+                      ? Colors.green
+                      : Colors.red,
                 ),
                 const SizedBox(width: 10),
-                Text("$index.jpg"),
-                const Expanded(
+                Text(widget.itemList[widget.index].fileName),
+                Expanded(
                   child: Align(
                     alignment: Alignment.centerRight,
-                    child: Icon(
-                      Icons.close,
-                      size: 20,
-                      color: Colors.white,
+                    child: GestureDetector(
+                      onTap: () {
+                        if (widget.onTap != null) {
+                          widget.onTap!(widget.index);
+                        }
+                      },
+                      child: const Icon(
+                        Icons.close,
+                        size: 20,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
@@ -50,7 +73,7 @@ class SteelPreviewWidget extends StatelessWidget {
           ),
           Expanded(
             child: Image.asset(
-              steelImage1,
+              widget.itemList[widget.index].imageAsset,
               fit: BoxFit.cover,
             ),
           ),
