@@ -4,9 +4,12 @@ import 'package:sfp_mobile_interface_flutter/models/steel_model.dart';
 const Duration threeHundredMilliSec = Duration(milliseconds: 300);
 const Duration oneSec = Duration(seconds: 1);
 
+const Color mainColor = Color.fromRGBO(153, 231, 222, 1);
+
 const EdgeInsets padding20All = EdgeInsets.all(20);
 
 const String steelImage1 = "assets/steel_image.jpg";
+const String steelDetectionImage1 = "assets/steel_detection.png";
 
 Color semiGreyColor = Colors.white.withOpacity(0.2);
 
@@ -18,6 +21,7 @@ List<SteelModel> testSteelList = [
     true,
     "C",
     steelImage1,
+    steelDetectionImage1,
   ),
   SteelModel(
     "12.jpg",
@@ -26,6 +30,7 @@ List<SteelModel> testSteelList = [
     true,
     "D",
     steelImage1,
+    steelDetectionImage1,
   ),
   SteelModel(
     "123.jpg",
@@ -34,6 +39,7 @@ List<SteelModel> testSteelList = [
     false,
     "A",
     steelImage1,
+    steelDetectionImage1,
   ),
   SteelModel(
     "1234.jpg",
@@ -42,6 +48,7 @@ List<SteelModel> testSteelList = [
     false,
     "B",
     steelImage1,
+    steelDetectionImage1,
   ),
   SteelModel(
     "12345.jpg",
@@ -50,6 +57,7 @@ List<SteelModel> testSteelList = [
     true,
     "C",
     steelImage1,
+    steelDetectionImage1,
   ),
   SteelModel(
     "123456.jpg",
@@ -58,6 +66,7 @@ List<SteelModel> testSteelList = [
     false,
     "D",
     steelImage1,
+    steelDetectionImage1,
   ),
   SteelModel(
     "1234567.jpg",
@@ -66,6 +75,7 @@ List<SteelModel> testSteelList = [
     true,
     "A",
     steelImage1,
+    steelDetectionImage1,
   ),
 ];
 
