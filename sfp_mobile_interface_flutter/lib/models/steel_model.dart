@@ -5,6 +5,7 @@ class SteelModel {
   final bool isNormal;
   final String defectLabel;
   final String imageAsset;
+  final String detectionImageAsset;
 
   SteelModel(
     this.fileName,
@@ -13,5 +14,6 @@ class SteelModel {
     this.isNormal,
     this.defectLabel,
     this.imageAsset,
+    this.detectionImageAsset,
   );
 }
