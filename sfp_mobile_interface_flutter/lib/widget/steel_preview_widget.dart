@@ -27,9 +27,8 @@ class _SteelPreviewWidgetState extends State<SteelPreviewWidget> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: widget.selectedIndex == widget.index
-              ? Colors.blue
-              : semiGreyColor,
+          color:
+              widget.selectedIndex == widget.index ? mainColor : semiGreyColor,
           width: 2.5,
           strokeAlign: BorderSide.strokeAlignOutside,
         ),

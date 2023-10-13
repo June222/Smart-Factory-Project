@@ -44,21 +44,18 @@ class _LoginPageState extends State<LoginPage> {
                 style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
               ),
               const Spacer(),
-              SizedBox(
-                width: 30,
-                height: 30,
-                child: Visibility(
-                  visible: loadingBarOffstage,
-                  child: const CircularProgressIndicator(),
-                ),
-              ),
               const SizedBox(height: 10),
               SizedBox(
                 height: height / 10,
                 width: width / 1.5,
                 child: ElevatedButton(
                   onPressed: loginPressed,
-                  child: const Text("관리자 모드로 시작"),
+                  child: loadingBarOffstage
+                      ? Visibility(
+                          visible: loadingBarOffstage,
+                          child: const CircularProgressIndicator(),
+                        )
+                      : const Text("관리자 모드로 시작"),
                 ),
               ),
               const Spacer(),

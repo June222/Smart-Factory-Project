@@ -54,7 +54,7 @@ class _GraphModeScreenState extends State<GraphModeScreen> {
     return Column(
       children: [
         Container(
-          color: Colors.blue,
+          color: mainColor.withOpacity(0.5),
           padding: const EdgeInsets.all(8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -131,7 +131,7 @@ class _GraphModeScreenState extends State<GraphModeScreen> {
             legend: const Legend(
                 isVisible: true,
                 iconHeight: 30,
-                textStyle: TextStyle(color: Colors.white)),
+                textStyle: TextStyle(color: Colors.black)),
             zoomPanBehavior: ZoomPanBehavior(
               enablePanning: true,
               maximumZoomLevel: 0.1,
@@ -250,7 +250,7 @@ class _GraphModeScreenState extends State<GraphModeScreen> {
               ),
             ],
           ),
-        )
+        ),
       ],
     );
   }

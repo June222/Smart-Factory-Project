@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:sfp_mobile_interface_flutter/data/data.dart';
 import 'package:sfp_mobile_interface_flutter/models/steel_model.dart';
 import 'package:sfp_mobile_interface_flutter/widget/custom_dropdown_button.dart';
-import 'package:sfp_mobile_interface_flutter/widget/steel_detail_widget.dart';
 import 'package:sfp_mobile_interface_flutter/widget/steel_preview_widget.dart';
+import 'package:sfp_mobile_interface_flutter/widget/steel_data_big_widget.dart';
 
 class DashBoardModeScreen extends StatefulWidget {
   const DashBoardModeScreen({super.key});
@@ -28,6 +28,8 @@ class _DashBoardModeScreenState extends State<DashBoardModeScreen> {
 
   String? selectedStatus;
   String? selectedLabel;
+
+  bool isDateSelected = false;
 
   void onStatusChange(String? value) {
     setState(() {
@@ -71,7 +73,7 @@ class _DashBoardModeScreenState extends State<DashBoardModeScreen> {
     return Column(
       children: [
         Container(
-          color: Colors.blue,
+          color: mainColor.withOpacity(.5),
           padding: const EdgeInsets.symmetric(
             horizontal: 30,
             vertical: 5,
@@ -158,106 +160,112 @@ class _DashBoardModeScreenState extends State<DashBoardModeScreen> {
 
               // GET 요청할 Button
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {
+                    isDateSelected = !isDateSelected;
+                  });
+                },
                 child: const Text("Jump"),
               ),
             ],
           ),
         ),
         Expanded(
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
+          child: isDateSelected
+              ? Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    Expanded(
+                      child: Column(
                         children: [
-                          Text("Images: ${testSteelList.length}"),
-                          Container(
-                            width: 1,
-                            height: 20,
-                            color: Colors.grey,
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text("Images: ${testSteelList.length}"),
+                                Container(
+                                  width: 1,
+                                  height: 20,
+                                  color: Colors.grey,
+                                ),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.fiber_manual_record_rounded,
+                                      color: Colors.green,
+                                    ),
+                                    Text(
+                                        "Normal: ${normalRatio.toStringAsFixed(2)}%"),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.fiber_manual_record_rounded,
+                                      color: Colors.red,
+                                    ),
+                                    Text(
+                                        "Defect: ${defectRatio.toStringAsFixed(2)}%"),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.fiber_manual_record_rounded,
-                                color: Colors.green,
+                          Expanded(
+                            child: Scrollbar(
+                              thumbVisibility: true,
+                              child: GridView.builder(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 40,
+                                  horizontal: 50,
+                                ),
+                                itemCount: itemCount,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  childAspectRatio: 0.8,
+                                  mainAxisSpacing: 30,
+                                  crossAxisSpacing: 20,
+                                ),
+                                itemBuilder: (_, index) {
+                                  return GestureDetector(
+                                    onTap: () => setState(() {
+                                      selectedIndex = index;
+                                    }),
+                                    child: SteelPreviewWidget(
+                                      index: index,
+                                      selectedIndex: selectedIndex,
+                                      itemList: currList,
+                                      onTap: removeItemAt,
+                                    ),
+                                  );
+                                },
                               ),
-                              Text(
-                                  "Normal: ${normalRatio.toStringAsFixed(2)}%"),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.fiber_manual_record_rounded,
-                                color: Colors.red,
-                              ),
-                              Text(
-                                  "Defect: ${defectRatio.toStringAsFixed(2)}%"),
-                            ],
+                            ),
                           ),
                         ],
                       ),
                     ),
                     Expanded(
-                      child: Scrollbar(
-                        thumbVisibility: true,
-                        child: GridView.builder(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 40,
-                            horizontal: 50,
-                          ),
-                          itemCount: itemCount,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            childAspectRatio: 0.8,
-                            mainAxisSpacing: 30,
-                            crossAxisSpacing: 20,
-                          ),
-                          itemBuilder: (_, index) {
-                            return GestureDetector(
-                              onTap: () => setState(() {
-                                selectedIndex = index;
-                              }),
-                              child: SteelPreviewWidget(
-                                index: index,
-                                selectedIndex: selectedIndex,
-                                itemList: currList,
-                                onTap: removeItemAt,
-                              ),
-                            );
-                          },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 25,
+                          vertical: 10,
                         ),
+                        child: selectedIndex != null
+                            ? SteelDataBigWidget(
+                                index: selectedIndex!,
+                                itemList: currList,
+                              )
+                            : const Text(
+                                "Select Image",
+                                textAlign: TextAlign.center,
+                              ),
                       ),
                     ),
                   ],
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 25,
-                    vertical: 10,
-                  ),
-                  child: selectedIndex != null
-                      ? SteelDataBigWidget(
-                          selectedIndex: selectedIndex!,
-                          itemList: currList,
-                        )
-                      : const Text(
-                          "Select Image",
-                          textAlign: TextAlign.center,
-                        ),
-                ),
-              ),
-            ],
-          ),
+                )
+              : const Text("Select Date"),
         ),
       ],
     );
