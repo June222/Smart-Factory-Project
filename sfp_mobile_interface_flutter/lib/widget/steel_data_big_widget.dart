@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:sfp_mobile_interface_flutter/data/data.dart';
+import 'package:sfp_mobile_interface_flutter/models/steel_model.dart';
 
 class SteelDataBigWidget extends StatelessWidget {
+  final int index;
+  final List<SteelModel> itemList;
+
   const SteelDataBigWidget({
     super.key,
+    required this.index,
+    required this.itemList,
   });
 
   @override
@@ -19,16 +25,18 @@ class SteelDataBigWidget extends StatelessWidget {
           ),
           child: Column(
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: Row(
                   children: [
                     Icon(
                       Icons.fiber_manual_record_rounded,
-                      color: Colors.green,
+                      color:
+                          itemList[index].isNormal ? Colors.green : Colors.red,
                     ),
-                    SizedBox(width: 10),
-                    Text("fileName.jpg"),
+                    const SizedBox(width: 10),
+                    Text(itemList[index].fileName),
                   ],
                 ),
               ),
@@ -45,14 +53,17 @@ class SteelDataBigWidget extends StatelessWidget {
                       maxScale: 5,
                       boundaryMargin: const EdgeInsets.all(20),
                       child: Image.asset(
-                        steelImage1,
+                        itemList[index].detectionImageAsset,
                         fit: BoxFit.contain,
                       ),
                     ),
                   ),
                 ),
               ),
-              const Text("filename.jpg"),
+              const Text(
+                "이미지 확대를 통해 자세히 보실 수 있습니다.",
+                style: TextStyle(fontSize: 10),
+              ),
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
@@ -80,31 +91,33 @@ class SteelDataBigWidget extends StatelessWidget {
                       style: TextStyle(color: Colors.white),
                     )),
                   ],
-                  rows: const [
+                  rows: [
                     DataRow(
                       cells: [
                         DataCell(
                           Align(
                             alignment: Alignment.center,
-                            child: Text("2023/10/01"),
+                            child: Text(
+                              itemList[index].captureDate.split(' ')[0],
+                            ),
                           ),
                         ),
                         DataCell(
                           Align(
                             alignment: Alignment.center,
-                            child: Text("02:00 P.M."),
+                            child: Text(itemList[index].captureTime),
                           ),
                         ),
                         DataCell(
                           Align(
                             alignment: Alignment.center,
-                            child: Text("Yes"),
+                            child: Text(itemList[index].isNormal.toString()),
                           ),
                         ),
                         DataCell(
                           Align(
                             alignment: Alignment.center,
-                            child: Text("X"),
+                            child: Text(itemList[index].defectLabel),
                           ),
                         ),
                       ],
