@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sfp_mobile_interface_flutter/data/data.dart';
 import 'package:sfp_mobile_interface_flutter/routers/main_page.dart';
 import 'package:sfp_mobile_interface_flutter/screens/login_page.dart';
 
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: MainPage.routeName,
+      initialRoute: LoginPage.routeName,
       themeMode: ThemeMode.dark,
       debugShowCheckedModeBanner: false,
       routes: {
@@ -27,18 +28,18 @@ class MyApp extends StatelessWidget {
       },
       title: 'Smart Factory',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: mainColor),
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.black,
           titleTextStyle: TextStyle(
-            color: Colors.blue,
+            color: mainColor,
             fontSize: 25,
             fontWeight: FontWeight.bold,
           ),
         ),
         scrollbarTheme: const ScrollbarThemeData(
           thickness: MaterialStatePropertyAll(10),
-          thumbColor: MaterialStatePropertyAll(Colors.blue),
+          thumbColor: MaterialStatePropertyAll(mainColor),
           radius: Radius.circular(20),
           mainAxisMargin: 20,
         ),
