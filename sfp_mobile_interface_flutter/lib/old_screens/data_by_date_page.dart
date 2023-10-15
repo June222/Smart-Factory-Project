@@ -104,7 +104,6 @@ class _DateTimePageState extends State<DateTimePage> {
             child: Column(
               children: [
                 Row(
-                  // crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Expanded(
                       flex: settingRate,
@@ -265,13 +264,6 @@ class _DateTimePageState extends State<DateTimePage> {
                                   enablePinching: true,
                                   zoomMode: ZoomMode.x,
                                 ),
-
-                                // tooltipBehavior: TooltipBehavior(
-                                //   activationMode: ActivationMode.singleTap,
-                                //   enable: true,
-                                //   tooltipPosition: TooltipPosition.auto,
-                                //   shouldAlwaysShow: true,
-                                // ),
                                 trackballBehavior: TrackballBehavior(
                                   enable: true,
                                   lineType: TrackballLineType.vertical,
@@ -427,99 +419,3 @@ class ChartData {
 
   ChartData(this.category, this.value);
 }
-// SfCartesianChart(
-//   primaryXAxis: CategoryAxis(),
-//   primaryYAxis: NumericAxis(),
-//   series: <ChartSeries>[
-//     // 첫 번째 시리즈
-//     ColumnSeries<ChartData, String>(
-//       dataSource: <ChartData>[
-//         ChartData('Category A', 30),
-//         ChartData('Category B', 50),
-//         ChartData('Category C', 20),
-//       ],
-//       xValueMapper: (ChartData sales, _) =>
-//           sales.category,
-//       yValueMapper: (ChartData sales, _) =>
-//           sales.value,
-//       name: 'Series 1',
-//     ),
-//     // 두 번째 시리즈
-//     ColumnSeries<ChartData, String>(
-//       dataSource: <ChartData>[
-//         ChartData('Category A', 40),
-//         ChartData('Category B', 20),
-//         ChartData('Category C', 60),
-//       ],
-//       xValueMapper: (ChartData sales, _) =>
-//           sales.category,
-//       yValueMapper: (ChartData sales, _) =>
-//           sales.value,
-//       name: 'Series 2',
-//     ),
-//   ],
-// ),
-// SfCartesianChart(
-//   primaryXAxis: CategoryAxis(),
-//   series: [
-//     // ColumnSeries(
-//     //   dataSource: <DataByClass>[
-//     //     DataByClass("1", 80),
-//     //     DataByClass("2", 50),
-//     //     DataByClass("3", 15),
-//     //     DataByClass("4", 5),
-//     //   ],
-//     //   xValueMapper: (datum, index) =>
-//     //       datum.class_name,
-//     //   yValueMapper: (datum, index) =>
-//     //       datum.numbers,
-//     // ),
-//     LineSeries(
-//       // markerSettings:
-//       //     const TrackballMarkerSettings(
-//       //   markerVisibility:
-//       //       TrackballVisibilityMode.visible,
-//       //   height: 100,
-//       //   width: 20,
-//       //   color: Colors.black,
-//       //   shape: DataMarkerType.circle,
-//       // ),
-//       dataSource: <DataByClass>[
-//         DataByClass("1", 80),
-//         DataByClass("2", 50),
-//         DataByClass("3", 15),
-//         DataByClass("4", 5),
-//       ],
-//       xValueMapper: (datum, index) =>
-//           datum.class_name,
-//       yValueMapper: (datum, index) =>
-//           datum.numbers,
-//     ),
-//   ],
-//   // series: <LineSeries<DateByClass, String>>[
-//   //   LineSeries<DateByClass, String>(
-//   //     dataSource: <DateByClass>[
-//   //       DateByClass("1", 80),
-//   //       DateByClass("2", 50),
-//   //       DateByClass("3", 15),
-//   //       DateByClass("4", 5),
-//   //     ],
-//   //     xValueMapper: (datum, index) =>
-//   //         datum.class_name,
-//   //     yValueMapper: (datum, index) =>
-//   //         datum.numbers,
-//   //   )
-//   // ],
-// ),
-// SfSparkLineChart(
-//   trackball: const SparkChartTrackball(
-//     activationMode:
-//         SparkChartActivationMode.tap,
-//   ),
-//   marker: const SparkChartMarker(
-//       displayMode:
-//           SparkChartMarkerDisplayMode.all),
-//   labelDisplayMode:
-//       SparkChartLabelDisplayMode.all,
-//   data: const [80, 50, 15, 5],
-// ),
