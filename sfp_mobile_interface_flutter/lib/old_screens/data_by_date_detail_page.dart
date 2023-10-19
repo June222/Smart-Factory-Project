@@ -49,14 +49,18 @@ class _DataByDateDetailPageState extends State<DataByDateDetailPage> {
                               groupValue: selectedValue,
                               title: const Text("2 by 2"),
                               onChanged: (value) => handleRadioValueChanged(
-                                  value, setStateInside),
+                                value,
+                                setStateInside,
+                              ),
                             ),
                             RadioListTile(
                               value: 1,
                               groupValue: selectedValue,
                               title: const Text("1 by 4"),
                               onChanged: (value) => handleRadioValueChanged(
-                                  value, setStateInside),
+                                value,
+                                setStateInside,
+                              ),
                             ),
                           ],
                         ),

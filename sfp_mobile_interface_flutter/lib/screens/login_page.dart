@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sfp_mobile_interface_flutter/data/data.dart';
-import 'package:sfp_mobile_interface_flutter/screens/home_page.dart';
+import 'package:sfp_mobile_interface_flutter/routers/main_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       loadingBarOffstage = false;
     });
-    Navigator.pushReplacementNamed(context, HomePage.routeName);
+    Navigator.pushReplacementNamed(context, MainPage.routeName);
   }
 
   @override
@@ -44,21 +44,18 @@ class _LoginPageState extends State<LoginPage> {
                 style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
               ),
               const Spacer(),
-              SizedBox(
-                width: 30,
-                height: 30,
-                child: Visibility(
-                  visible: loadingBarOffstage,
-                  child: const CircularProgressIndicator(),
-                ),
-              ),
               const SizedBox(height: 10),
               SizedBox(
                 height: height / 10,
                 width: width / 1.5,
                 child: ElevatedButton(
                   onPressed: loginPressed,
-                  child: const Text("관리자 모드로 시작"),
+                  child: loadingBarOffstage
+                      ? Visibility(
+                          visible: loadingBarOffstage,
+                          child: const CircularProgressIndicator(),
+                        )
+                      : const Text("관리자 모드로 시작"),
                 ),
               ),
               const Spacer(),
