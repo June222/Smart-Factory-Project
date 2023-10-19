@@ -24,7 +24,8 @@ public class OriginController {
 
     // 파일이름, 생성날짜(date)형식으로 입력하면 자동으로 id가 매겨짐.
     @PostMapping(value = "/origin/post")
-    public String postOrigin(@RequestBody Origin origin) {
+    public String postOrigin(Origin origin) {
+
         return originService.createOriginService(origin);
     }
 
