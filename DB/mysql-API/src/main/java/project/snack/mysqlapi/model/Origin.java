@@ -1,5 +1,6 @@
 package project.snack.mysqlapi.model;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,9 +14,11 @@ import java.util.Date;
 public class Origin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String fileName;
     private Date captureDate;
+    private String defectLabel;
+    private byte[] image;
 
 
 }
