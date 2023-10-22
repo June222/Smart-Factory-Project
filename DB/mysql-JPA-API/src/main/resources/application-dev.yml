@@ -1,0 +1,54 @@
+# 1
+server:
+  servlet:
+    encoding:
+      charset: utf-8
+      force: true
+  port: 8080
+
+spring:
+  # 2
+  mustache:
+    servlet:
+      expose-session-attributes: true
+      expose-request-attributes: true
+  # 3
+  datasource:
+    # h2는 embedded database DB를 설치할 필요가 없다.
+
+    # 개발 환경에서는 jdk만 설치 되어 있으면 실행 가능
+    # 배포 때는 따로 DB를 설치 해줘야 한다.
+    url: jdbc:h2:mem:test;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true # 인터넷 창으로 DB tool에 접근할 수 있다.
+
+  sql:
+    init:
+      data-locations:
+  #        - classpath:db/data.sql
+
+  # 4
+  jpa:
+    # 8 ddl-auto create 작동 시점을 sql init 보다 빠르게 설정
+    defer-datasource-initialization: true
+
+    hibernate:
+      #      ddl-auto: none # 시작 시에 Table 재생성
+      ddl-auto: create
+    # 5
+
+    show-sql: true # 쿼리문의 log 남기기
+    properties:
+
+      hibernate:
+        format_sql: true
+
+# 6
+logging:
+  level:
+    '[com.example.demo1]': INFO
+    '[org.hibernate.type]': TRACE
