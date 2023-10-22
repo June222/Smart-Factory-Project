@@ -30,11 +30,11 @@ public class SteelController {
         AddRespDto addRespDto = steelService.addData(requestDTO);
         return new ResponseEntity<>(new ResponseDTO<>(1,"성공 했습니다.", addRespDto), HttpStatus.CREATED);
     }
-//
-//    @ResponseBody
-//    @GetMapping("/get")
-//    public ResponseEntity<?> getData(@RequestBody @Valid GetReqDto requestDTO, BindingResult bindingResult){
-//        List<GetRespDto> getRespDtoList = steelService.getData(requestDTO);
-//        return new ResponseEntity<>(new ResponseDTO<>(1, "성공 했습니다.", getRespDtoList), HttpStatus.ACCEPTED);
-//    }
+
+    @ResponseBody
+    @GetMapping("/get")
+    public ResponseEntity<?> getData(@RequestBody @Valid GetReqDto requestDTO, BindingResult bindingResult){
+        List<GetRespDto> getRespDtoList = steelService.getData(requestDTO);
+        return new ResponseEntity<>(new ResponseDTO<>(1, "성공 했습니다.", getRespDtoList), HttpStatus.ACCEPTED);
+    }
 }
