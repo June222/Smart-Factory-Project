@@ -26,7 +26,7 @@ public class SteelController {
 
     @ResponseBody
     @PostMapping("/add")
-    public ResponseEntity<?> addData(@RequestBody @Valid SteelReqDto.AddReqDto requestDTO, BindingResult bindingResult){
+    public ResponseEntity<?> addData(@RequestBody @Valid AddReqDto requestDTO, BindingResult bindingResult){
         AddRespDto addRespDto = steelService.addData(requestDTO);
         return new ResponseEntity<>(new ResponseDTO<>(1,"성공 했습니다.", addRespDto), HttpStatus.CREATED);
     }
