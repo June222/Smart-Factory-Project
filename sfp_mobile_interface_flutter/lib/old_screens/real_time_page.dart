@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sfp_mobile_interface_flutter/data/data.dart';
-import 'package:sfp_mobile_interface_flutter/screens/real_time_image_page.dart';
+// import 'package:sfp_mobile_interface_flutter/screens/real_time_image_page.dart';
 
 class RealTimePage extends StatefulWidget {
   const RealTimePage({super.key});
@@ -146,16 +146,16 @@ class _RowDataState extends State<RowData> {
   Color? containerColor;
 
   void movePageToRealTimeImagePage() {
-    Navigator.pushNamed(
-      context,
-      RealTimeImagePage.routeName,
-      arguments: RealTimeImageArguments(
-        "fileName",
-        "000001",
-        "2023-09-14",
-        steelImage1,
-      ),
-    );
+    // Navigator.pushNamed(
+    //   context,
+    //   RealTimeImagePage.routeName,
+    //   arguments: RealTimeImageArguments(
+    //     "fileName",
+    //     "000001",
+    //     "2023-09-14",
+    //     steelImage1,
+    //   ),
+    // );
   }
 
   void onDataTap() async {
