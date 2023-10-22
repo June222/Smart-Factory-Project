@@ -45,15 +45,15 @@ public class SteelReqDto {
             return steel;
         }
     }
-//
-//    @Setter
-//    @Getter
-//    public static class GetReqDto{
-//        @NotEmpty
-//        private String localDateTimeStart;
-//        @NotEmpty
-//        private String localDateTimeEnd;
-//        private boolean isNormal;
-//        private Integer defectLabel;
-//    }
+
+    @Setter
+    @Getter
+    public static class GetReqDto{
+        @NotEmpty
+        private String localDateTimeStart;
+        @NotEmpty
+        private String localDateTimeEnd;
+        private boolean isNormal;
+        private Integer defectLabel;
+    }
 }
