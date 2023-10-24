@@ -41,6 +41,9 @@ public class SteelReqDto {
                 steel.addLabel(steelLabel);
                 System.out.println(steel);
             }
+            if(defectLabelList.isEmpty()){
+                steel.setNormal(true);
+            }
             System.out.println("toEntity done.");
             return steel;
         }
@@ -53,7 +56,7 @@ public class SteelReqDto {
         private String localDateTimeStart;
         @NotEmpty
         private String localDateTimeEnd;
-        private boolean isNormal;
-        private Integer defectLabel;
+        private String status;
+        private String label;
     }
 }
