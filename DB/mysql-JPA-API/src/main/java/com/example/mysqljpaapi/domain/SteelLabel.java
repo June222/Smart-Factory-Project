@@ -13,11 +13,11 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "steel_label_tb")
+@Table(name = "steel_label")
 public class SteelLabel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "LABEL_ID")
+    @Column()
     private int id;
 
     private int label;
