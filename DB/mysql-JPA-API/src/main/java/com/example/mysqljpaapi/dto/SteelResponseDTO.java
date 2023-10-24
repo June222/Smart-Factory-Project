@@ -35,7 +35,6 @@ public class SteelResponseDTO {
     @Setter
     @Getter
     public static class GetRespDto{
-        private int id;
         private String fileName;
         private String originImgUrl;
         private String detectedImgUrl;
@@ -44,7 +43,6 @@ public class SteelResponseDTO {
         private String second;
 
         public GetRespDto(Steel steel){
-            this.id = steel.getId();
             this.fileName = steel.getFileName();
             this.originImgUrl = steel.getOriginImgUrl();;
             this.detectedImgUrl = steel.getDetectedImgUrl();
