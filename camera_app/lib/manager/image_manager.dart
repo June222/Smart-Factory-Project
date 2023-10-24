@@ -1,6 +1,8 @@
 import 'package:camera/camera.dart';
 import 'package:camera_app/constants/color_constant.dart';
+import 'package:camera_app/setting/show_loading_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_cropper/image_cropper.dart';
 
 class ImageManager {
@@ -26,5 +28,14 @@ class ImageManager {
       ],
     );
     return croppedFile;
+  }
+
+  // 자른 이미지를 파일로 변환함.
+  static Future<Uint8List> readAsBytesFromCroppedFile(
+      CroppedFile croppedFile, BuildContext context) async {
+    showLoadingBar(context);
+    final file = await croppedFile.readAsBytes();
+    Navigator.pop(context);
+    return file;
   }
 }
