@@ -28,26 +28,39 @@ public class SteelService {
 
     @Transactional
     public List<GetRespDto> getData(GetReqDto requestDTO){
-        if(requestDTO.isNormal()){
-            LocalDateTime t1 = CustomDateUtil.toLocalDataTimeFormat(requestDTO.getLocalDateTimeStart());
-            LocalDateTime t2 = CustomDateUtil.toLocalDataTimeFormat(requestDTO.getLocalDateTimeEnd());
-            List<Steel> listFoundPS =  steelRepository.findNormalsByLocalDateTime(t1,t2);
-
-            return GetRespDto.getRespDtoList(listFoundPS);
-        }
-
-        if(!requestDTO.isNormal()){
-            LocalDateTime t1 = CustomDateUtil.toLocalDataTimeFormat(requestDTO.getLocalDateTimeStart());
-            LocalDateTime t2 = CustomDateUtil.toLocalDataTimeFormat(requestDTO.getLocalDateTimeEnd());
-            int label = requestDTO.getDefectLabel();
-            List<Steel> listFoundPS =  steelRepository.findSteelsByLabelAndAndLocalDateTime(t1,t2,label);
-
-            return GetRespDto.getRespDtoList(listFoundPS);
-        }
         LocalDateTime t1 = CustomDateUtil.toLocalDataTimeFormat(requestDTO.getLocalDateTimeStart());
         LocalDateTime t2 = CustomDateUtil.toLocalDataTimeFormat(requestDTO.getLocalDateTimeEnd());
-        List<Steel> listFoundPS = steelRepository.findSteelsByLocalDateTime(t1, t2);
+        if (requestDTO.getStatus().equals("ALL")) {
+            List<Steel> listFoundPS = steelRepository.findSteelsByLocalDateTime(t1, t2);
+            return GetRespDto.getRespDtoList(listFoundPS);
+        }
 
+        else if(requestDTO.getStatus().equals("NORMAL")){
+            List<Steel> listFoundPS =  steelRepository.findNormalsByLocalDateTime(t1,t2);
+            return GetRespDto.getRespDtoList(listFoundPS);
+        }
+
+        else if(requestDTO.getStatus().equals("DEFECT") && requestDTO.getLabel().equals("ALL")){
+            List<Steel> listFoundPS =  steelRepository.findDefectsByLocalDateTime(t1,t2);
+            return GetRespDto.getRespDtoList(listFoundPS);
+        }
+
+        int label;
+        switch (requestDTO.getLabel()){
+            case "A":
+                label = 1;
+                break;
+            case "B":
+                label = 2;
+                break;
+            case "C":
+                label = 3;
+                break;
+            default:
+                label = 4;
+                break;
+        }
+        List<Steel> listFoundPS = steelRepository.findDefectsByLabelAndLocalDateTime(t1, t2, label);
         return GetRespDto.getRespDtoList(listFoundPS);
     }
 }
