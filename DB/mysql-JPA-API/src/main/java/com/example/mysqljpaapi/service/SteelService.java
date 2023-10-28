@@ -3,10 +3,13 @@ package com.example.mysqljpaapi.service;
 
 import com.example.mysqljpaapi.domain.Steel;
 import com.example.mysqljpaapi.domain.SteelRepository;
+
 import com.example.mysqljpaapi.dto.SteelReqDto.GetReqDto;
+import com.example.mysqljpaapi.dto.SteelReqDto.GraphReqDto;
 import com.example.mysqljpaapi.dto.SteelReqDto.AddReqDto;
 import com.example.mysqljpaapi.dto.SteelResponseDTO;
 import com.example.mysqljpaapi.dto.SteelResponseDTO.GetRespDto;
+import com.example.mysqljpaapi.dto.SteelResponseDTO.GraphRespDto;
 import com.example.mysqljpaapi.util.CustomDateUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -62,5 +65,13 @@ public class SteelService {
         }
         List<Steel> listFoundPS = steelRepository.findDefectsByLabelAndLocalDateTime(t1, t2, label);
         return GetRespDto.getRespDtoList(listFoundPS);
+    }
+
+    @Transactional
+    public List<GraphRespDto> graphRespDtoList(GraphReqDto requestDTO){
+        LocalDateTime t1 = CustomDateUtil.toLocalDataTimeFormat(requestDTO.getLocalDateTimeStart());
+        LocalDateTime t2 = CustomDateUtil.toLocalDataTimeFormat(requestDTO.getLocalDateTimeEnd());
+        List<Steel> listFoundPS = steelRepository.findSteelsByLocalDateTime(t1, t2);
+        return GraphRespDto.getRespDtoList(listFoundPS);
     }
 }
