@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:sfp_mobile_interface_flutter/data/chart_setting.dart';
 import 'package:sfp_mobile_interface_flutter/data/data.dart';
+import 'package:sfp_mobile_interface_flutter/models/graph_bar_model.dart';
+import 'package:sfp_mobile_interface_flutter/models/graph_request_model.dart';
+import 'package:sfp_mobile_interface_flutter/resources/http_method.dart';
+import 'package:sfp_mobile_interface_flutter/setting/show_custom_date_picker.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class GraphModeScreen extends StatefulWidget {
@@ -10,37 +15,57 @@ class GraphModeScreen extends StatefulWidget {
 }
 
 class _GraphModeScreenState extends State<GraphModeScreen> {
-  Period periodStart = Period("2023", "10", "1");
-  Period periodEnd = Period("2023", "10", "3");
+  Period periodStart = Period.fromDateTime(DateTime.now());
+  Period periodEnd = Period.fromDateTime(DateTime.now());
+
+  DateTime? _dateTimeStart = DateTime.now();
+  DateTime? _dateTimeEnd = DateTime.now();
+
+  List<GraphBarModel> dataList = [];
 
   bool visibleFirstLabel = false;
   bool visibleSecondLabel = false;
   bool visibleThirdLabel = false;
   bool visibleFourthLabel = false;
 
+  int? selectedSeriesIndex;
+
+  // 클릭한 label 초기화
   void initLabel() {
     setState(() {
       visibleFirstLabel = false;
       visibleSecondLabel = false;
       visibleThirdLabel = false;
       visibleFourthLabel = false;
+      selectedSeriesIndex = null;
     });
   }
 
+  // 클릭한 label selectedLabel로 변환해주는 함수
   void setLabel(SelectionArgs selectionArgs) {
     initLabel();
+
+    if (selectionArgs.seriesIndex == selectedSeriesIndex) {
+      selectedSeriesIndex = null;
+      return;
+    }
+
     setState(() {
       switch (selectionArgs.seriesIndex) {
         case 0:
+          selectedSeriesIndex = 0;
           visibleFirstLabel = true;
           break;
         case 1:
+          selectedSeriesIndex = 1;
           visibleSecondLabel = true;
           break;
         case 2:
+          selectedSeriesIndex = 2;
           visibleThirdLabel = true;
           break;
         case 3:
+          selectedSeriesIndex = 3;
           visibleFourthLabel = true;
           break;
         default:
@@ -67,18 +92,14 @@ class _GraphModeScreenState extends State<GraphModeScreen> {
                   fontSize: 17,
                 ),
               ),
+              // 지정한 조회 시작 날짜 렌더링
               IconButton(
                   onPressed: () async {
-                    DateTime? dateTime = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(2010),
-                      lastDate: DateTime(2024),
-                    );
+                    _dateTimeStart = await showCustomDatePicker(context);
                     setState(() {
-                      if (dateTime != null) {
+                      if (_dateTimeStart != null) {
                         setState(() {
-                          periodStart = Period.fromDateTime(dateTime);
+                          periodStart = Period.fromDateTime(_dateTimeStart!);
                         });
                       }
                     });
@@ -92,159 +113,93 @@ class _GraphModeScreenState extends State<GraphModeScreen> {
                   fontSize: 17,
                 ),
               ),
+              // 지정한 조회 종료 날짜 렌더링
               IconButton(
                   onPressed: () async {
-                    DateTime? dateTime = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(2010),
-                      lastDate: DateTime(2024),
-                    );
-                    setState(() {
-                      if (dateTime != null) {
-                        setState(() {
-                          periodEnd = Period.fromDateTime(dateTime);
-                        });
-                      }
-                    });
+                    _dateTimeEnd = await showCustomDatePicker(context);
+                    if (_dateTimeEnd != null) {
+                      setState(() {
+                        periodEnd = Period.fromDateTime(_dateTimeEnd!);
+                      });
+                    }
+                    setState(() {});
                   },
                   icon: const Icon(Icons.calendar_month)),
 
               // GET 요청할 Button
               ElevatedButton(
-                onPressed: () {},
-                child: const Text("Jump"),
+                onPressed: () async {
+                  // null 일 경우 현재로 설정
+                  _dateTimeStart ??= DateTime.now();
+                  _dateTimeEnd ??= DateTime.now();
+
+                  // mysql 서버로 전송할 Model 생성
+                  GraphRequestModel graphRequestModel =
+                      GraphRequestModel.fromDateTime(
+                          _dateTimeStart!, _dateTimeEnd!);
+
+                  // 서버에서 Data 받아오기
+                  dataList = await HttpMethod.getGraphDataList(
+                      graphRequestModel, context);
+                  setState(() {});
+                },
+                child: const Text("조회하기"),
               ),
             ],
           ),
         ),
+        // Column 차트 렌더링
         Expanded(
           child: SfCartesianChart(
             title: ChartTitle(text: "Columns Chart"),
-            primaryXAxis: CategoryAxis(),
-            primaryYAxis: NumericAxis(),
+            primaryXAxis: CategoryAxis(title: AxisTitle(text: "날짜")),
+            primaryYAxis: NumericAxis(title: AxisTitle(text: "개수")),
             selectionType: SelectionType.series,
             selectionGesture: ActivationMode.singleTap,
-            onAxisLabelTapped: (args) {},
-            onSelectionChanged: setLabel,
             backgroundColor: Colors.white,
-            legend: const Legend(
-                isVisible: true,
-                iconHeight: 30,
-                textStyle: TextStyle(color: Colors.black)),
-            zoomPanBehavior: ZoomPanBehavior(
-              enablePanning: true,
-              maximumZoomLevel: 0.1,
-              enablePinching: true,
-              zoomMode: ZoomMode.x,
-            ),
-            trackballBehavior: TrackballBehavior(
-              enable: true,
-              lineType: TrackballLineType.vertical,
-              tooltipAlignment: ChartAlignment.near,
-              tooltipDisplayMode: TrackballDisplayMode.floatAllPoints,
-            ),
+            onSelectionChanged: setLabel,
+            legend: legend,
+            zoomPanBehavior: zoomPanBehavior,
+            trackballBehavior: trackballBehavior,
             series: [
               ColumnSeries(
                 enableTooltip: true,
                 name: "Class A",
+                selectionBehavior: customSelectionBehavior(),
                 dataLabelMapper: (datum, index) =>
                     datum.class_one_num.toString(),
-                dataLabelSettings: DataLabelSettings(
-                  isVisible: visibleFirstLabel,
-                  textStyle: const TextStyle(color: Colors.white),
-                  useSeriesColor: true,
-                ),
-                selectionBehavior: SelectionBehavior(enable: true),
-                dataSource: <DataByDate>[
-                  DataByDate(80, 50, 15, 5, "2023-09-14"),
-                  DataByDate(80, 50, 15, 5, "2023-09-15"),
-                  DataByDate(50, 30, 5, 15, "2023-09-16"),
-                  DataByDate(50, 30, 5, 15, "2023-09-17"),
-                  DataByDate(50, 30, 5, 15, "2023-09-18"),
-                  DataByDate(50, 30, 5, 15, "2023-09-19"),
-                  DataByDate(50, 30, 5, 15, "2023-09-20"),
-                  DataByDate(50, 30, 5, 15, "2023-09-21"),
-                  DataByDate(50, 30, 5, 15, "2023-09-22"),
-                  DataByDate(50, 30, 5, 15, "2023-09-23"),
-                ],
+                dataLabelSettings: customDataLabelSettings(visibleFirstLabel),
+                dataSource: dataList,
                 xValueMapper: (datum, index) => datum.date,
                 yValueMapper: (datum, index) => datum.class_one_num,
               ),
               ColumnSeries(
                 name: "Class B",
-                selectionBehavior: SelectionBehavior(
-                  enable: true,
-                ),
+                selectionBehavior: customSelectionBehavior(),
                 dataLabelMapper: (datum, index) =>
                     datum.class_two_num.toString(),
-                dataLabelSettings: DataLabelSettings(
-                  isVisible: visibleSecondLabel,
-                  textStyle: const TextStyle(color: Colors.white),
-                  useSeriesColor: true,
-                ),
-                dataSource: <DataByDate>[
-                  DataByDate(80, 50, 15, 5, "2023-09-14"),
-                  DataByDate(80, 50, 15, 5, "2023-09-15"),
-                  DataByDate(50, 30, 5, 15, "2023-09-16"),
-                  DataByDate(50, 30, 5, 15, "2023-09-17"),
-                  DataByDate(50, 30, 5, 15, "2023-09-18"),
-                  DataByDate(50, 30, 5, 15, "2023-09-19"),
-                  DataByDate(50, 30, 5, 15, "2023-09-20"),
-                  DataByDate(50, 30, 5, 15, "2023-09-21"),
-                  DataByDate(50, 30, 5, 15, "2023-09-22"),
-                  DataByDate(50, 30, 5, 15, "2023-09-23"),
-                ],
+                dataLabelSettings: customDataLabelSettings(visibleSecondLabel),
+                dataSource: dataList,
                 xValueMapper: (datum, index) => datum.date,
                 yValueMapper: (datum, index) => datum.class_two_num,
               ),
               ColumnSeries(
                 name: "Class C",
-                selectionBehavior: SelectionBehavior(enable: true),
+                selectionBehavior: customSelectionBehavior(),
                 dataLabelMapper: (datum, index) =>
                     datum.class_three_num.toString(),
-                dataLabelSettings: DataLabelSettings(
-                  isVisible: visibleThirdLabel,
-                  textStyle: const TextStyle(color: Colors.white),
-                  useSeriesColor: true,
-                ),
-                dataSource: <DataByDate>[
-                  DataByDate(80, 50, 15, 5, "2023-09-14"),
-                  DataByDate(80, 50, 15, 5, "2023-09-15"),
-                  DataByDate(50, 30, 5, 15, "2023-09-16"),
-                  DataByDate(50, 30, 5, 15, "2023-09-17"),
-                  DataByDate(50, 30, 5, 15, "2023-09-18"),
-                  DataByDate(50, 30, 5, 15, "2023-09-19"),
-                  DataByDate(50, 30, 5, 15, "2023-09-20"),
-                  DataByDate(50, 30, 5, 15, "2023-09-21"),
-                  DataByDate(50, 30, 5, 15, "2023-09-22"),
-                  DataByDate(50, 30, 5, 15, "2023-09-23"),
-                ],
+                dataLabelSettings: customDataLabelSettings(visibleThirdLabel),
+                dataSource: dataList,
                 xValueMapper: (datum, index) => datum.date,
                 yValueMapper: (datum, index) => datum.class_three_num,
               ),
               ColumnSeries(
                 name: "Class D",
-                selectionBehavior: SelectionBehavior(enable: true),
+                selectionBehavior: customSelectionBehavior(),
                 dataLabelMapper: (datum, index) =>
                     datum.class_four_num.toString(),
-                dataLabelSettings: DataLabelSettings(
-                  isVisible: visibleFourthLabel,
-                  textStyle: const TextStyle(color: Colors.white),
-                  useSeriesColor: true,
-                ),
-                dataSource: <DataByDate>[
-                  DataByDate(80, 50, 15, 5, "2023-09-14"),
-                  DataByDate(80, 50, 15, 5, "2023-09-15"),
-                  DataByDate(50, 30, 5, 15, "2023-09-16"),
-                  DataByDate(50, 30, 5, 15, "2023-09-17"),
-                  DataByDate(50, 30, 5, 15, "2023-09-18"),
-                  DataByDate(50, 30, 5, 15, "2023-09-19"),
-                  DataByDate(50, 30, 5, 15, "2023-09-20"),
-                  DataByDate(50, 30, 5, 15, "2023-09-21"),
-                  DataByDate(50, 30, 5, 15, "2023-09-22"),
-                  DataByDate(50, 30, 5, 15, "2023-09-23"),
-                ],
+                dataLabelSettings: customDataLabelSettings(visibleFourthLabel),
+                dataSource: dataList,
                 xValueMapper: (datum, index) => datum.date,
                 yValueMapper: (datum, index) => datum.class_four_num,
               ),
