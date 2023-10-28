@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:sfp_mobile_interface_flutter/data/data.dart';
 import 'package:sfp_mobile_interface_flutter/models/steel_model.dart';
-import 'package:sfp_mobile_interface_flutter/widget/custom_dropdown_button.dart';
 import 'package:sfp_mobile_interface_flutter/widget/steel_data_big_widget.dart';
 import 'package:sfp_mobile_interface_flutter/widget/steel_preview_widget.dart';
 
@@ -31,6 +30,7 @@ class _MainPageState extends State<MainPage> {
   String? selectedStatus;
   String? selectedLabel;
 
+  // 조회할 결함의 유무 설정
   void onStatusChange(String? value) {
     setState(() {
       log("status change");
@@ -38,6 +38,7 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
+  // 조회할 결함의 Label 설정
   void onLabelChange(String? value) {
     setState(() {
       log("label change");
@@ -45,6 +46,7 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
+  // X를 누른 이미지를 List에서 삭제
   void removeItemAt(int index) {
     log("remove At $index");
     setState(() {
@@ -146,32 +148,32 @@ class _MainPageState extends State<MainPage> {
                         });
                       },
                       icon: const Icon(Icons.calendar_month)),
-                  CustomDropDownButton(
-                    hint: const Text(
-                      "IsNormal",
-                      style: TextStyle(
-                        color: Colors.black45,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17,
-                      ),
-                    ),
-                    items: const ["Normal", "Defect"],
-                    onChanged: onStatusChange,
-                    value: selectedStatus,
-                  ),
-                  CustomDropDownButton(
-                    hint: const Text(
-                      "Defect Label",
-                      style: TextStyle(
-                        color: Colors.black45,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17,
-                      ),
-                    ),
-                    items: const ["A", "B", "C", "D"],
-                    onChanged: onLabelChange,
-                    value: selectedLabel,
-                  ),
+                  // CustomDropDownButton(
+                  //   hint: const Text(
+                  //     "IsNormal",
+                  //     style: TextStyle(
+                  //       color: Colors.black45,
+                  //       fontWeight: FontWeight.bold,
+                  //       fontSize: 17,
+                  //     ),
+                  //   ),
+                  //   items: const ["Normal", "Defect"],
+                  //   onChanged: onStatusChange,
+                  //   value: selectedStatus,
+                  // ),
+                  // CustomDropDownButton(
+                  //   hint: const Text(
+                  //     "Defect Label",
+                  //     style: TextStyle(
+                  //       color: Colors.black45,
+                  //       fontWeight: FontWeight.bold,
+                  //       fontSize: 17,
+                  //     ),
+                  //   ),
+                  //   items: const ["A", "B", "C", "D"],
+                  //   onChanged: onLabelChange,
+                  //   value: selectedLabel,
+                  // ),
 
                   // GET 요청할 Button
                   ElevatedButton(
