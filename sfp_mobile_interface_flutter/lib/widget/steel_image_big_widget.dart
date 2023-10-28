@@ -14,8 +14,10 @@ class SteelImageBigWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 현재 위젯이 차지할 수 있는 공간 체크
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
+        // 색상 부여
         return Container(
           width: constraints.maxWidth,
           height: constraints.maxHeight,
@@ -30,6 +32,7 @@ class SteelImageBigWidget extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: Row(
                   children: [
+                    // 결함 유무에 따른 색상 출력
                     Icon(
                       Icons.fiber_manual_record_rounded,
                       color: itemList[index].labelList.isEmpty
@@ -37,11 +40,13 @@ class SteelImageBigWidget extends StatelessWidget {
                           : Colors.red,
                     ),
                     const SizedBox(width: 10),
+                    // 파일 이름(촬영자 이름)
                     Text(itemList[index].fileName),
                   ],
                 ),
               ),
               const SizedBox(height: 10),
+
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -50,25 +55,29 @@ class SteelImageBigWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                       color: Colors.white,
                     ),
+                    // 확대 가능한 이미지 렌더링
                     child: InteractiveViewer(
-                        maxScale: 5,
-                        boundaryMargin: const EdgeInsets.all(20),
-                        child: Image.network(
-                          itemList[index].detectedImgURL,
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) {
-                              return child;
-                            }
-                            return const Center(
-                              child:
-                                  CircularProgressIndicator(color: mainColor),
-                            );
-                          },
-                          errorBuilder: (context, error, stackTrace) {
-                            return const Center(
-                                child: Text("이미지를 로드할 수 없습니다."));
-                          },
-                        )),
+                      maxScale: 5,
+                      boundaryMargin: const EdgeInsets.all(20),
+                      // network를 통한 이미지 받아오기
+                      child: Image.network(
+                        itemList[index].detectedImgURL,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          // 로딩이 끝날 경우 원하는 이미지 출력
+                          if (loadingProgress == null) {
+                            return child;
+                          }
+                          // 로딩 중일 경우 로딩 아이콘 렌더링
+                          return const Center(
+                            child: CircularProgressIndicator(color: mainColor),
+                          );
+                        },
+                        // 로딩에 문제가 생길 경우 렌더링
+                        errorBuilder: (context, error, stackTrace) {
+                          return const Center(child: Text("이미지를 로드할 수 없습니다."));
+                        },
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -77,6 +86,7 @@ class SteelImageBigWidget extends StatelessWidget {
                 style: TextStyle(fontSize: 10),
               ),
               const SizedBox(height: 20),
+              // 데이터의 자세한 명세
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: DataTable(
