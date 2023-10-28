@@ -77,10 +77,11 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
       MysqlResponseModel? mysqlResponseModel =
           await HttpMethod().transferToMysqlServer(mysqlRequestModel, context);
 
-      if (mysqlResponseModel != null) {
-        // 정상적으로 처리시에 화면 이탈.
-        Navigator.pop(context);
-      }
+      _cameraController.resumePreview();
+      // if (mysqlResponseModel != null) {
+      //   // 정상적으로 처리시에 화면 이탈.
+      //   Navigator.pop(context);
+      // }
     }
   }
 

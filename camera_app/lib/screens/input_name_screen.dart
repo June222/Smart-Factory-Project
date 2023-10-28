@@ -58,7 +58,13 @@ class _InputNameScreenState extends State<InputNameScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const Text("SMART FACTORY"),
+            const Text(
+              "Smart Factory",
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             TextField(
               controller: _textEditingController,
               focusNode: _focusNode,

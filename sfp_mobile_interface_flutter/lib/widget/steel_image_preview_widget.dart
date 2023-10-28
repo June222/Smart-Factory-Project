@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sfp_mobile_interface_flutter/data/data.dart';
-import 'package:sfp_mobile_interface_flutter/models/steel_model.dart';
+import 'package:sfp_mobile_interface_flutter/models/dash_board_image_model.dart';
 
-class SteelPreviewWidget extends StatelessWidget {
+class SteelImagePreviewWidget extends StatelessWidget {
   final int index;
   final int? selectedIndex;
-  final List<SteelModel> itemList;
+  final List<DashBoardImageModel> itemList;
   final Function(int index)? onTap;
 
-  const SteelPreviewWidget({
+  const SteelImagePreviewWidget({
     super.key,
     required this.index,
     required this.selectedIndex,
@@ -38,7 +38,9 @@ class SteelPreviewWidget extends StatelessWidget {
               children: [
                 Icon(
                   Icons.fiber_manual_record_rounded,
-                  color: itemList[index].isNormal ? Colors.green : Colors.red,
+                  color: itemList[index].labelList.isEmpty
+                      ? Colors.green
+                      : Colors.red,
                 ),
                 const SizedBox(width: 10),
                 Text(itemList[index].fileName),
@@ -63,9 +65,17 @@ class SteelPreviewWidget extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Image.asset(
-              itemList[index].imageAsset,
-              fit: BoxFit.cover,
+            child: Image.network(
+              itemList[index].originImgURL,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) {
+                  return child;
+                }
+                return const Center(child: CircularProgressIndicator());
+              },
+              errorBuilder: (context, error, stackTrace) {
+                return const Text("이미지를 불러올 수 없습니다.");
+              },
             ),
           ),
         ],

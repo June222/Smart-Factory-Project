@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class CustomDropDownButton extends StatefulWidget {
+class CustomDropDownButton extends StatelessWidget {
   final List<String> items;
   final String? value;
   final void Function(String?)? onChanged;
-  final Widget? hint;
+  final String? hint;
 
   const CustomDropDownButton({
     super.key,
@@ -15,15 +15,19 @@ class CustomDropDownButton extends StatefulWidget {
   });
 
   @override
-  State<CustomDropDownButton> createState() => _CustomDropDownButtonState();
-}
-
-class _CustomDropDownButtonState extends State<CustomDropDownButton> {
-  @override
   Widget build(BuildContext context) {
     return DropdownButton(
-      hint: widget.hint,
-      value: widget.value,
+      hint: hint != null
+          ? Text(
+              hint!,
+              style: const TextStyle(
+                color: Colors.black45,
+                fontWeight: FontWeight.bold,
+                fontSize: 17,
+              ),
+            )
+          : null,
+      value: value,
       alignment: Alignment.center,
       style: const TextStyle(color: Colors.white),
       dropdownColor: Colors.black,
@@ -33,7 +37,7 @@ class _CustomDropDownButtonState extends State<CustomDropDownButton> {
         height: 1,
         width: 20,
       ),
-      items: widget.items.map<DropdownMenuItem<String>>((String value) {
+      items: items.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           alignment: Alignment.center,
@@ -46,7 +50,7 @@ class _CustomDropDownButtonState extends State<CustomDropDownButton> {
           ),
         );
       }).toList(),
-      onChanged: widget.onChanged,
+      onChanged: onChanged,
     );
   }
 }
