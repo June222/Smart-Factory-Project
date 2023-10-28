@@ -9,8 +9,11 @@ class GraphRequestModel {
   });
 
   // DatePicker에서 설정한 값으로 클래스 생성
-  static GraphRequestModel fromDateTime(DateTime t1, DateTime t2) {
-    return GraphRequestModel(dateStart: t1.toString(), dateEnd: t2.toString());
+  static GraphRequestModel fromDateTime(
+      DateTime dateTimeStart, DateTime dateTimeEnd) {
+    var dts = "${dateTimeStart.toString().split(' ')[0]} 00:00:00";
+    var dte = "${dateTimeEnd.toString().split(' ')[0]} 23:59:59";
+    return GraphRequestModel(dateStart: dts, dateEnd: dts);
   }
 
   // json에 전달할 형태로 변환
