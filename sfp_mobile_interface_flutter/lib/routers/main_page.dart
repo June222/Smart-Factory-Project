@@ -6,7 +6,6 @@ import 'package:sfp_mobile_interface_flutter/screens/graph_mode_screen.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
-
   static String routeName = '/mainpage';
 
   @override
@@ -14,6 +13,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  // Dashboard Mode와 GraphMode를 구분
   bool dashBoardMode = true;
   @override
   Widget build(BuildContext context) {

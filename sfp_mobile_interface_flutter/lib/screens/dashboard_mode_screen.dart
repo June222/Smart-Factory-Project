@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:sfp_mobile_interface_flutter/data/data.dart';
+import 'package:sfp_mobile_interface_flutter/data/sliver_gride_setting_data.dart';
 import 'package:sfp_mobile_interface_flutter/models/dash_board_image_model.dart';
 import 'package:sfp_mobile_interface_flutter/models/dash_board_request_model.dart';
 import 'package:sfp_mobile_interface_flutter/resources/http_method.dart';
@@ -18,27 +19,35 @@ class DashBoardModeScreen extends StatefulWidget {
 }
 
 class _DashBoardModeScreenState extends State<DashBoardModeScreen> {
-  Period periodStart = Period.fromDateTime(DateTime.now());
-  Period periodEnd = Period.fromDateTime(DateTime.now());
-
+  // 조회 시작 날짜 전송할 변수
   DateTime _dateTimeStart = DateTime.now();
   DateTime _dateTimeEnd = DateTime.now();
 
+  // 조회 시작 날짜 출력할 변수
+  Period periodStart = Period.fromDateTime(DateTime.now());
+  Period periodEnd = Period.fromDateTime(DateTime.now());
+
+  // 이미지 비율 받을 변수
   double normalRatio = 0;
   double defectRatio = 0;
   int numOfNormal = 0;
   int numOfDefect = 0;
 
+  // 받은 이미지를 보관할 변수
   List<DashBoardImageModel> modelList = [];
-
   int itemCount = 0;
+
+  // 선택한 이미지를 저장할 변수
   int? selectedIndex;
 
+  // 조회 설정을 저장할 변수
   String? selectedStatus;
   String? selectedLabel;
 
+  // 조회 버튼 클릭 유무
   bool isDateSelected = false;
 
+  // 조회하고싶은 이미지의 defect 상태 확인
   void onStatusChange(String? value) {
     setState(() {
       log("status change");
@@ -46,6 +55,7 @@ class _DashBoardModeScreenState extends State<DashBoardModeScreen> {
     });
   }
 
+  // 조회하고싶은 이미지의 label 확인
   void onLabelChange(String? value) {
     setState(() {
       log("label change");
@@ -53,6 +63,7 @@ class _DashBoardModeScreenState extends State<DashBoardModeScreen> {
     });
   }
 
+  // 미리보기 이미지 삭제.
   void removeItemAt(int index) {
     log("remove At $index");
     setState(() {
@@ -63,6 +74,7 @@ class _DashBoardModeScreenState extends State<DashBoardModeScreen> {
     });
   }
 
+  // 불러온 이미지의 개수 및 비율 계산
   void setRatio() {
     for (DashBoardImageModel data in modelList) {
       if (data.labelList.isEmpty) {
@@ -77,10 +89,12 @@ class _DashBoardModeScreenState extends State<DashBoardModeScreen> {
     setState(() {});
   }
 
+  // 이미지 조회
   Future<void> searchImage() async {
     selectedStatus ??= "ALL";
     selectedLabel ??= "ALL";
 
+    // 서버에 전송할 데이터를 위한 모델 클래스
     final DashBoardRequestModel dashBoardRequestModel =
         DashBoardRequestModel.makeReqModel(
       dateTimeStart: _dateTimeStart,
@@ -91,9 +105,12 @@ class _DashBoardModeScreenState extends State<DashBoardModeScreen> {
 
     log(dashBoardRequestModel.toString());
 
-    modelList = await HttpMethod.getDataList(dashBoardRequestModel);
+    // 데이터 전송
+    modelList =
+        await HttpMethod.getDashBoardDataList(dashBoardRequestModel, context);
     itemCount = modelList.length;
 
+    // 비율 계산
     setRatio();
   }
 
@@ -111,7 +128,9 @@ class _DashBoardModeScreenState extends State<DashBoardModeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               const Text("START: "),
+              // 조회 시작 날짜 렌더링
               PeriodText(periodStart: periodStart),
+              // 조회 시작 날짜 고르기
               IconButton(
                   onPressed: () async {
                     DateTime? dateTime = await showCustomDatePicker(context);
@@ -124,24 +143,29 @@ class _DashBoardModeScreenState extends State<DashBoardModeScreen> {
                   },
                   icon: const Icon(Icons.calendar_month)),
               const Text("END: "),
+              // 조회 끝나는 날짜 렌더링
               PeriodText(periodStart: periodEnd),
+              // 조회 끝나는 날짜 고르기
               IconButton(
-                  onPressed: () async {
-                    DateTime? dateTime = await showCustomDatePicker(context);
-                    if (dateTime != null) {
-                      setState(() {
-                        _dateTimeEnd = dateTime;
-                        periodEnd = Period.fromDateTime(dateTime);
-                      });
-                    }
-                  },
-                  icon: const Icon(Icons.calendar_month)),
+                onPressed: () async {
+                  DateTime? dateTime = await showCustomDatePicker(context);
+                  if (dateTime != null) {
+                    setState(() {
+                      _dateTimeEnd = dateTime;
+                      periodEnd = Period.fromDateTime(dateTime);
+                    });
+                  }
+                },
+                icon: const Icon(Icons.calendar_month),
+              ),
+              // 조회할 이미지 status 설정
               CustomDropDownButton(
                 hint: "Status",
                 items: const ["ALL", "NORMAL", "DEFECT"],
                 onChanged: onStatusChange,
                 value: selectedStatus,
               ),
+              // 조회할 이미지 label 설정
               CustomDropDownButton(
                 hint: "Lable",
                 items: const ["ALL", "A", "B", "C", "D"],
@@ -155,11 +179,12 @@ class _DashBoardModeScreenState extends State<DashBoardModeScreen> {
                   await searchImage();
                   setState(() {});
                 },
-                child: const Text("Jump"),
+                child: const Text("조회하기"),
               ),
             ],
           ),
         ),
+        // 이미지 미리보기 칸
         Expanded(
           child: Row(
             children: [
@@ -171,7 +196,9 @@ class _DashBoardModeScreenState extends State<DashBoardModeScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
+                          // 이미지 개수
                           Text("Images: ${modelList.length}"),
+                          // divider
                           Container(
                             width: 1,
                             height: 20,
@@ -183,6 +210,7 @@ class _DashBoardModeScreenState extends State<DashBoardModeScreen> {
                                 Icons.fiber_manual_record_rounded,
                                 color: Colors.green,
                               ),
+                              // 정상 이미지 비율
                               Text(
                                   "Normal: ${normalRatio.toStringAsFixed(2)}%"),
                             ],
@@ -193,6 +221,7 @@ class _DashBoardModeScreenState extends State<DashBoardModeScreen> {
                                 Icons.fiber_manual_record_rounded,
                                 color: Colors.red,
                               ),
+                              // 결함 이미지 비율
                               Text(
                                   "Defect: ${defectRatio.toStringAsFixed(2)}%"),
                             ],
@@ -209,18 +238,14 @@ class _DashBoardModeScreenState extends State<DashBoardModeScreen> {
                             horizontal: 50,
                           ),
                           itemCount: itemCount,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            childAspectRatio: 0.8,
-                            mainAxisSpacing: 30,
-                            crossAxisSpacing: 20,
-                          ),
+                          gridDelegate: sliverGridSetting,
                           itemBuilder: (_, index) {
+                            // 선택하면 선택한 이미지 출력
                             return GestureDetector(
                               onTap: () => setState(() {
                                 selectedIndex = index;
                               }),
+                              // 미리보기 이미지 위젯
                               child: SteelImagePreviewWidget(
                                 index: index,
                                 selectedIndex: selectedIndex,
@@ -234,12 +259,14 @@ class _DashBoardModeScreenState extends State<DashBoardModeScreen> {
                   ],
                 ),
               ),
+              // 이미지 확대보기 칸
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 25,
                     vertical: 10,
                   ),
+                  // 선택한 이미지 확대 출력하기
                   child: selectedIndex != null
                       ? SteelImageBigWidget(
                           index: selectedIndex!,
