@@ -1,11 +1,13 @@
 package com.example.mysqljpaapi.controller;
 
 import com.example.mysqljpaapi.dto.ResponseDTO;
-import com.example.mysqljpaapi.dto.SteelReqDto;
+
 import com.example.mysqljpaapi.dto.SteelReqDto.GetReqDto;
 import com.example.mysqljpaapi.dto.SteelReqDto.AddReqDto;
-import com.example.mysqljpaapi.dto.SteelResponseDTO;
+import com.example.mysqljpaapi.dto.SteelReqDto.GraphReqDto;
+
 import com.example.mysqljpaapi.dto.SteelResponseDTO.GetRespDto;
+import com.example.mysqljpaapi.dto.SteelResponseDTO.GraphRespDto;
 import com.example.mysqljpaapi.dto.SteelResponseDTO.AddRespDto;
 import com.example.mysqljpaapi.service.SteelService;
 import lombok.RequiredArgsConstructor;
@@ -32,9 +34,16 @@ public class SteelController {
     }
 
     @ResponseBody
-    @PostMapping("/get")
+    @PostMapping("/get/dashboard")
     public ResponseEntity<?> getData(@RequestBody @Valid GetReqDto requestDTO, BindingResult bindingResult){
         List<GetRespDto> getRespDtoList = steelService.getData(requestDTO);
         return new ResponseEntity<>(new ResponseDTO<>(1, "성공 했습니다.", getRespDtoList), HttpStatus.ACCEPTED);
+    }
+
+    @ResponseBody
+    @PostMapping("/get/graph")
+    public ResponseEntity<?> getGraphData(@RequestBody @Valid GraphReqDto requestDTO, BindingResult bindingResult){
+        List<GraphRespDto> getRespDtoList = steelService.graphRespDtoList(requestDTO);
+        return new ResponseEntity<>(new ResponseDTO<>(1, "성공 했습니다.", getRespDtoList),HttpStatus.ACCEPTED);
     }
 }

@@ -59,4 +59,13 @@ public class SteelReqDto {
         private String status;
         private String label;
     }
+
+    @Setter
+    @Getter
+    public static class GraphReqDto{
+        @NotEmpty
+        private String localDateTimeStart;
+        @NotEmpty
+        private String localDateTimeEnd;
+    }
 }
