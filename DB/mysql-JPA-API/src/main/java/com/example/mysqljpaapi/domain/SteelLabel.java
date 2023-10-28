@@ -14,6 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "steel_label")
+// 철강 결함 label Table(다대일 맵핑)
 public class SteelLabel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,10 +23,12 @@ public class SteelLabel {
 
     private int label;
 
+    // 본 테이블(steel)의 id가 맵핑됨.
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn()
     private Steel steel;
 
+    // Builder 패턴 생성자
     @Builder
     public SteelLabel(int id, int label, Steel steel){
         this.id = id;
