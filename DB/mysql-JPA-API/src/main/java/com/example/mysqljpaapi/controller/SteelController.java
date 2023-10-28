@@ -32,7 +32,7 @@ public class SteelController {
     }
 
     @ResponseBody
-    @GetMapping("/get")
+    @PostMapping("/get")
     public ResponseEntity<?> getData(@RequestBody @Valid GetReqDto requestDTO, BindingResult bindingResult){
         List<GetRespDto> getRespDtoList = steelService.getData(requestDTO);
         return new ResponseEntity<>(new ResponseDTO<>(1, "성공 했습니다.", getRespDtoList), HttpStatus.ACCEPTED);

@@ -1,2 +1,3 @@
 application-dev.yml
 application.yml
+!application-h2.yml

@@ -51,4 +51,11 @@ app.*.map.json
 /test/
 /web/
 /windows
+
+# dart 폴더
 /assets
+/lib/old_screens/*
+/lib/routes/fruit_page.dart
+/lib/routes/todo_page.dart
+/lib/provider/fruit_store.dart
+/lib/provider/todo.dart

@@ -1,10 +1,10 @@
 HELP.md
-.gradle
+*.gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-/src/main/resources/application*
+/src/main/resources/a*
 /src/main/resources/application-dev.yml
 
 ### STS ###
