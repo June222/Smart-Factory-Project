@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sfp_mobile_interface_flutter/data/data.dart';
 import 'package:sfp_mobile_interface_flutter/models/steel_model.dart';
 
-class SteelPreviewWidget extends StatefulWidget {
+class SteelPreviewWidget extends StatelessWidget {
   final int index;
   final int? selectedIndex;
   final List<SteelModel> itemList;
@@ -17,18 +17,12 @@ class SteelPreviewWidget extends StatefulWidget {
   });
 
   @override
-  State<SteelPreviewWidget> createState() => _SteelPreviewWidgetState();
-}
-
-class _SteelPreviewWidgetState extends State<SteelPreviewWidget> {
-  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color:
-              widget.selectedIndex == widget.index ? mainColor : semiGreyColor,
+          color: selectedIndex == index ? mainColor : semiGreyColor,
           width: 2.5,
           strokeAlign: BorderSide.strokeAlignOutside,
         ),
@@ -44,19 +38,17 @@ class _SteelPreviewWidgetState extends State<SteelPreviewWidget> {
               children: [
                 Icon(
                   Icons.fiber_manual_record_rounded,
-                  color: widget.itemList[widget.index].isNormal
-                      ? Colors.green
-                      : Colors.red,
+                  color: itemList[index].isNormal ? Colors.green : Colors.red,
                 ),
                 const SizedBox(width: 10),
-                Text(widget.itemList[widget.index].fileName),
+                Text(itemList[index].fileName),
                 Expanded(
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
                       onTap: () {
-                        if (widget.onTap != null) {
-                          widget.onTap!(widget.index);
+                        if (onTap != null) {
+                          onTap!(index);
                         }
                       },
                       child: const Icon(
@@ -72,7 +64,7 @@ class _SteelPreviewWidgetState extends State<SteelPreviewWidget> {
           ),
           Expanded(
             child: Image.asset(
-              widget.itemList[widget.index].imageAsset,
+              itemList[index].imageAsset,
               fit: BoxFit.cover,
             ),
           ),
