@@ -98,14 +98,3 @@ class Period {
     return "$year / $month / $date";
   }
 }
-
-class DataByDate {
-  final String date;
-  final int class_one_num;
-  final int class_two_num;
-  final int class_three_num;
-  final int class_four_num;
-
-  DataByDate(this.class_one_num, this.class_two_num, this.class_three_num,
-      this.class_four_num, this.date);
-}

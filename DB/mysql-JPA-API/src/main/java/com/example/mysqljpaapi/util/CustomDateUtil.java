@@ -3,6 +3,8 @@ package com.example.mysqljpaapi.util;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+// mysql에는 dateTime type의 값이 저장되어 있음.
+// 이를 원하는 형태의 String으로 변환하는 클래스 및 메소드
 public class CustomDateUtil {
     public static String toStringFormat(LocalDateTime localDateTime){
         return localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
