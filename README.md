@@ -1,8 +1,5 @@
-# Steel
+# Smart Factory Project
 
-## 🚧 Architecture
-* 전체 구조도<br>
-  <img src="img/pipeline.png" width="800">
+좀 더 자세하게 정리된 README 링크입니다.
 
-* 서비스 구조도<br>
-  <img src="https://github.com/June222/Smart-Factory-Project/assets/76769044/33ebaf1c-9311-461e-8b9a-960a5b1e00fe" width="800">
+[REAMDE 링크](https://github.com/June222/capstone-2023-1-02)
