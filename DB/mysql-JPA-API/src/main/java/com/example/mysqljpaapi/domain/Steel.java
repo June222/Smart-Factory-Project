@@ -18,7 +18,7 @@ import java.util.List;
 @ToString
 public class Steel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column()
     private Integer id;
 
