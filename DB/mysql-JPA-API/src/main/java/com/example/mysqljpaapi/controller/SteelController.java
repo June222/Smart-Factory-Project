@@ -2,7 +2,6 @@ package com.example.mysqljpaapi.controller;
 
 import com.example.mysqljpaapi.dto.ResponseDTO;
 
-import com.example.mysqljpaapi.dto.SteelReqDto;
 import com.example.mysqljpaapi.dto.SteelReqDto.AddReqDto;
 import com.example.mysqljpaapi.dto.SteelReqDto.GraphReqDto;
 import com.example.mysqljpaapi.dto.SteelReqDto.DashboardReqDto;
@@ -47,7 +46,7 @@ public class SteelController {
     @ResponseBody
     @PostMapping("/get/graph")
     public ResponseEntity<?> getGraphData(@RequestBody @Valid GraphReqDto requestDTO, BindingResult bindingResult){
-        List<GraphRespDto> getRespDtoList = steelService.graphRespDtoList(requestDTO);
+        List<GraphRespDto> getRespDtoList = steelService.getGraphRespDtoList(requestDTO);
         return new ResponseEntity<>(new ResponseDTO<>(1, "성공 했습니다.", getRespDtoList),HttpStatus.ACCEPTED);
     }
 }

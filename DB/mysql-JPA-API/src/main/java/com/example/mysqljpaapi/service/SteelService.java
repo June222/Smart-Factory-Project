@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -77,7 +78,7 @@ public class SteelService {
 
     @Transactional
     // graph 모드에서의 영속화
-    public List<GraphRespDto> graphRespDtoList(GraphReqDto requestDTO){
+    public List<GraphRespDto> getGraphRespDtoList(GraphReqDto requestDTO){
         LocalDateTime t1 = CustomDateUtil.toLocalDataTimeFormat(requestDTO.getLocalDateTimeStart());
         LocalDateTime t2 = CustomDateUtil.toLocalDataTimeFormat(requestDTO.getLocalDateTimeEnd());
         List<Steel> listFoundPS = steelRepository.findSteelsByLocalDateTime(t1, t2);

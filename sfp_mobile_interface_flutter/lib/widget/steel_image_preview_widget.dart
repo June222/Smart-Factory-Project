@@ -43,7 +43,10 @@ class SteelImagePreviewWidget extends StatelessWidget {
                       : Colors.red,
                 ),
                 const SizedBox(width: 10),
-                Text(itemList[index].fileName),
+                Text(
+                  itemList[index].fileName,
+                  style: const TextStyle(fontSize: 10),
+                ),
                 Expanded(
                   child: Align(
                     alignment: Alignment.centerRight,
@@ -67,6 +70,7 @@ class SteelImagePreviewWidget extends StatelessWidget {
           Expanded(
             child: Image.network(
               itemList[index].originImgURL,
+              fit: BoxFit.fitHeight,
               loadingBuilder: (context, child, loadingProgress) {
                 if (loadingProgress == null) {
                   return child;
